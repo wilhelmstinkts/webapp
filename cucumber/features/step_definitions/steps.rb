@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require 'watir'
-browser = Watir::Browser.new :chrome
+args = %w[headless disable-gpu disable-dev-shm-usage disable-software-rasterizer no-sandbox]
+browser = Watir::Browser.new :chrome, args: args
 
 When('I open the main page') do
   source_path = File.expand_path('../src', Dir.pwd)
