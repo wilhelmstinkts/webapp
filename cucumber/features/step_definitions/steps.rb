@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 require 'watir'
-browser_args = [
-  'headless',
-  'disable-gpu',
-  'disable-dev-shm-usage',
-  'disable-software-rasterizer',
-  'no-sandbox'
+browser_args = %w[
+  headless
+  disable-gpu
+  disable-dev-shm-usage
+  disable-software-rasterizer
+  no-sandbox
 ]
 browser = Watir::Browser.new :chrome, args: browser_args
 
