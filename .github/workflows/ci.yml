@@ -1,0 +1,21 @@
+name: CI
+
+on: [push]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Lint Ruby
+        uses: gimenete/rubocop-action@1.0
+
+  behaviour-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Behaviour tests
+        run: |
+          echo Testing behaviour with cucumber
+          cd cucumber
+          cucumber
