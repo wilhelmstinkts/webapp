@@ -16,8 +16,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6' 
       - name: Behaviour tests
         run: |
-          echo Testing behaviour with cucumber
+          echo Ruby has version
+          ruby -v
+          echo Bundler has version
+          bundle -v
+          echo installing requirements
           cd cucumber
+          bundle install
+          echo Testing behaviour with cucumber          
           cucumber
