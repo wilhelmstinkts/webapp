@@ -7,7 +7,6 @@ browser = Watir::Browser.new :chrome, args: args
 When('I open the main page') do
   source_path = File.expand_path('../src', Dir.pwd)
   url = "file:///#{source_path}/index.html"
-  puts url
   browser.goto url
 end
 
