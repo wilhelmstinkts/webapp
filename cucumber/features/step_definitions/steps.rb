@@ -17,8 +17,13 @@ When('I open the main page') do
 end
 
 Then('I should see {string}') do |must_be_shown|
-  content = browser.text
-  expect(content).to include(must_be_shown)
+  found = false
+  content = browser.text  
+  matching_input = browser.input placeholder: must_be_shown
+  if matching_input.exists? or content.include?(must_be_shown)
+    found = true
+  end  
+  expect(found).to be(true)
 end
 
 Then('I should not see {string}') do |must_not_be_shown|
