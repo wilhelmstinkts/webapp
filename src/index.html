@@ -23,8 +23,27 @@
   <![endif]-->
 
   <!-- Add your site or application content here -->
-  <p>Hello world! This is HTML5 Boilerplate.</p>
-
+  <form>
+    <input type="text" style="width: 20em;" name="givenName" placeholder="Vorname" required=true minlength="2" />
+    <input type="text" style="width: 40em;" name="surName" placeholder="Nachname" required=true minlength="2" />
+    <br>
+    <input type="email" style="width: 20em;" name="eMail" placeholder="E-Mailadresse" required=true minlength="2" />
+    <br>
+    <input type="text" style="width: 20em;" name="street" placeholder="Straße" required=true minlength="2" />
+    <input type="text" style="width: 7em;" name="number" placeholder="Hausnummer" required=true />
+    <button name="notAdress" type="button">Position ohne Adresse</button>
+    <br>
+    <select name="kind" placeholder="Wonach stinkt es?">
+      <option value="" disabled selected hidden>Wonach stinkt es?</option>
+      <option>Kaffee</option>
+      <option>Schokolade</option>
+      <option>Bäckerei</option>
+      <option>Biomüll</option>
+      <option>Lack</option>
+      <option>Sonstiges</option>
+    </select>
+    <input type="range" min="1" max="5" name="intensity"> <label for="intensity">Intensität</label>
+  </form>
 
 </body>
 
