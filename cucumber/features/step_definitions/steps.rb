@@ -31,5 +31,10 @@ Then('I should see {string}') do |must_be_shown|
 end
 
 Then('I should not see {string}') do |must_not_be_shown|
-  expect(isVisible(must_be_shown, browser)).to be(false)
+  expect(isVisible(must_not_be_shown, browser)).to be(false)
+end
+
+Then("I click {string}") do |button_text|
+  button = browser.button(text: button_text)
+  button.click
 end
