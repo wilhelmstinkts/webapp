@@ -10,14 +10,11 @@ browser_args = %w[
 ]
 browser = Watir::Browser.new :chrome, args: browser_args
 
-def isVisible(text, browser)
+def is_visible(text, browser)
   found = false
-  content = browser.text  
+  content = browser.text
   matching_input = browser.input placeholder: text
-  if matching_input.exists? or content.include?(text)
-    found = true
-  end  
-  return found
+  return matching_input.exists? || content.include?(text) || false
 end
 
 When('I open the main page') do
@@ -27,14 +24,14 @@ When('I open the main page') do
 end
 
 Then('I should see {string}') do |must_be_shown|
-  expect(isVisible(must_be_shown, browser)).to be(true)
+  expect(is_visible(must_be_shown, browser)).to be(true)
 end
 
 Then('I should not see {string}') do |must_not_be_shown|
-  expect(isVisible(must_not_be_shown, browser)).to be(false)
+  expect(is_visible(must_not_be_shown, browser)).to be(false)
 end
 
-Then("I click {string}") do |button_text|
+Then('I click {string}') do |button_text|
   button = browser.button(text: button_text)
   button.click
 end
