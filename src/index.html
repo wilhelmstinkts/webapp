@@ -16,6 +16,7 @@
 
   <meta name="theme-color" content="#fafafa">
 </head>
+
 <body>
   <!--[if IE]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
@@ -28,10 +29,12 @@
     <br>
     <input type="email" style="width: 20em;" name="eMail" placeholder="E-Mailadresse" required=true minlength="2" />
     <br>
-    <input type="text" style="width: 20em;" name="street" placeholder="Straße" required=true minlength="2" />
-    <input type="text" style="width: 7em;" name="number" placeholder="Hausnummer" required=true />
-    <button name="notAdress" type="button" onclick="getLocation()">Meine Position verwenden</button>
-    <p id="positionDisplay"></p>
+    <input type="text" id="inputStreet" style="width: 20em;" name="street" placeholder="Straße" required=true
+      minlength="2" />
+    <input type="text" id="inputNumber" style="width: 7em;" name="number" placeholder="Hausnummer" required=true />
+    <button id="buttonPositiontoggle" name="notAdress" type="button" onclick="getLocation()">Meine Position
+      verwenden</button>
+    <p id="positionDisplay" hidden></p>
     <br>
     <select name="kind" placeholder="Wonach stinkt es?">
       <option value="" disabled selected hidden>Wonach stinkt es?</option>
@@ -48,21 +51,38 @@
 </body>
 <script>
   var positionDisplay = document.getElementById("positionDisplay");
- 
- function getLocation() {
-   if (navigator.geolocation) {
-     navigator.geolocation.getCurrentPosition(showPosition);
-   } else { 
-     positionDisplay.innerHTML = "Dein Browser unterstützt keine Ortung.";
-   }
- }
- 
- function showPosition(position) { 
-   positionDisplay.innerHTML = "Deine Position: <br />" 
-   + position.coords.latitude.toLocaleString('de-DE', {maximumFractionDigits: 5}) + "° Breite <br />"
-   + position.coords.longitude.toLocaleString('de-DE', {maximumFractionDigits: 5}) + "° Länge";
- }
- </script>
+
+  function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+      document.getElementById("inputStreet").setAttribute("hidden", "true");
+      document.getElementById("inputNumber").setAttribute("hidden", "true");
+      var toggleButton = document.getElementById("buttonPositiontoggle");
+      toggleButton.innerText = "Adresse eingeben";
+      toggleButton.onclick = showAdress;
+
+
+    } else {
+      positionDisplay.innerHTML = "Dein Browser unterstützt keine Ortung.";
+    }
+  }
+
+  function showPosition(position) {
+    positionDisplay.removeAttribute("hidden", "");
+    positionDisplay.innerHTML = "Deine Position: <br />"
+      + position.coords.latitude.toLocaleString('de-DE', { maximumFractionDigits: 5 }) + "° Breite <br />"
+      + position.coords.longitude.toLocaleString('de-DE', { maximumFractionDigits: 5 }) + "° Länge";
+  }
+
+  function showAdress() {
+    positionDisplay.setAttribute("hidden", true);
+    document.getElementById("inputStreet").removeAttribute("hidden", "");
+    document.getElementById("inputNumber").removeAttribute("hidden", "");
+    var toggleButton = document.getElementById("buttonPositiontoggle");
+    toggleButton.innerText = "Meine Position verwenden";
+    toggleButton.onclick = getLocation;
+  }
+</script>
 
 
 </html>

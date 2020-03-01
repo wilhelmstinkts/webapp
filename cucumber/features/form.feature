@@ -16,5 +16,8 @@ Scenario: Inputs for the app are present
     When I open the main page
     Then I should see "Meine Position verwenden"
     And I click "Meine Position verwenden"
-    Then I should not see "Straße"
-    Then I should not see "Hausnummer"
+    Then I should see "Länge"
+    Then I should see "Breite"
+    Then I should see "Adresse eingeben"
+    When I click "Adresse eingeben"
+    Then I should see "Meine Position verwenden"
