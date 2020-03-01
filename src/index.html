@@ -23,7 +23,7 @@
   <![endif]-->
 
   <!-- Add your site or application content here -->
-  <form>
+  <form id="form">
     <input type="text" style="width: 20em;" name="givenName" placeholder="Vorname" required=true minlength="2" />
     <input type="text" style="width: 40em;" name="surName" placeholder="Nachname" required=true minlength="2" />
     <br>
@@ -36,7 +36,7 @@
       verwenden</button>
     <p id="positionDisplay" hidden></p>
     <br>
-    <select name="kind" placeholder="Wonach stinkt es?">
+    <select name="kind" placeholder="Wonach stinkt es?" required>
       <option value="" disabled selected hidden>Wonach stinkt es?</option>
       <option>Kaffee</option>
       <option>Schokolade</option>
@@ -45,11 +45,22 @@
       <option>Lack</option>
       <option>Sonstiges</option>
     </select>
-    <input type="range" min="1" max="5" name="intensity"> <label for="intensity">Intensität</label>
+    <input type="range" min="1" max="5" name="intensity"> <label for="intensity">Intensität</label><br />
+    <button type="submit" onclick="sendForm()">Senden</button>
   </form>
 
 </body>
 <script>
+  function sendForm() {
+    var form = document.getElementById("form");
+    if (form.checkValidity()) {
+      alert("Ich würde jetzt zum Backend gehen, wenn es eins gäbe.");
+    }
+    else {
+      alert("Bitte Eingaben prüfen.");
+    }
+  }
+
   var positionDisplay = document.getElementById("positionDisplay");
 
   function getLocation() {
@@ -57,6 +68,8 @@
       navigator.geolocation.getCurrentPosition(showPosition);
       document.getElementById("inputStreet").setAttribute("hidden", "true");
       document.getElementById("inputNumber").setAttribute("hidden", "true");
+      document.getElementById("inputStreet").removeAttribute("required", "");
+      document.getElementById("inputNumber").removeAttribute("required", "");
       var toggleButton = document.getElementById("buttonPositiontoggle");
       toggleButton.innerText = "Adresse eingeben";
       toggleButton.onclick = showAdress;
@@ -78,6 +91,8 @@
     positionDisplay.setAttribute("hidden", true);
     document.getElementById("inputStreet").removeAttribute("hidden", "");
     document.getElementById("inputNumber").removeAttribute("hidden", "");
+    document.getElementById("inputStreet").setAttribute("required", "");
+    document.getElementById("inputNumber").setAttribute("required", "");
     var toggleButton = document.getElementById("buttonPositiontoggle");
     toggleButton.innerText = "Meine Position verwenden";
     toggleButton.onclick = getLocation;
