@@ -12,12 +12,10 @@ Feature: Form
     Then I should see "Wonach stinkt es?"
     Then I should see "Intensität"
 
-Scenario: Inputs for the app are present
+Scenario: Toggle location
     When I open the main page
     Then I should see "Meine Position verwenden"
-    And I click "Meine Position verwenden"
-    Then I should see "Länge"
-    Then I should see "Breite"
+    When I click "Meine Position verwenden"
     Then I should see "Adresse eingeben"
     When I click "Adresse eingeben"
     Then I should see "Meine Position verwenden"
