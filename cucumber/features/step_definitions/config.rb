@@ -2,32 +2,26 @@
 
 require 'watir'
 
+# Holds global configuration values for the cucumber steps
 class Config
-    def initialize(browser, timeout)
-        @browser = browser
-        @timeout = timeout
-    end
+  attr_reader :browser, :timeout
 
-    def browser
-        @browser
-    end
+  def initialize(browser, timeout)
+    @browser = browser
+    @timeout = timeout
+  end
 
-    def timeout
-        @timeout
-    end
+  def self.default
+    browser_args = %w[
+      headless
+      disable-gpu
+      disable-dev-shm-usage
+      disable-software-rasterizer
+      no-sandbox
+    ]
+    browser = Watir::Browser.new :chrome, args: browser_args
 
-    def self.default
-        browser_args = %w[
-            headless
-            disable-gpu
-            disable-dev-shm-usage
-            disable-software-rasterizer
-            no-sandbox
-          ]
-        
-        browser = Watir::Browser.new :chrome, args: browser_args
-        timeout = 5
-        
-        Config.new(browser, timeout)
-    end
+    timeout = 5
+    Config.new(browser, timeout)
+  end
 end
