@@ -9,7 +9,7 @@ browser = config.browser
 def visible?(text, config)
   browser = config.browser
   content = browser.text
-  matching_input = browser.input placeholder: text  
+  matching_input = browser.input placeholder: text
   matching_input.exists? || content.include?(text) || false
 end
 
