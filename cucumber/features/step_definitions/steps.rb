@@ -25,6 +25,24 @@ def visible_within_timeout?(text, config)
   present
 end
 
+def set_text_input(input_placeholder, text, config)
+  matching_input = config.browser.text_field placeholder: input_placeholder
+  matching_input.exists? && matching_input.set(text)
+end
+
+def set_selector(input_placeholder, option, config)
+  matching_input = config.browser.select placeholder: input_placeholder
+  matching_input.exists? && matching_input.select(option)
+end
+
+When("I fill in following:") do |table|
+  # table is a Cucumber::MultilineArgument::DataTable
+  for property in table.column_names do
+    set_text_input(property, table.hashes[0][property], config)
+    set_selector(property, table.hashes[0][property], config)
+  end
+end
+
 When('I open the main page') do
   source_path = File.expand_path('../src', Dir.pwd)
   url = "file:///#{source_path}/index.html"

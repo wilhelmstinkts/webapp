@@ -23,9 +23,9 @@
   <![endif]-->
 
   <!-- Add your site or application content here -->
-  <form id="form">
+  <form id="form" onsubmit="return false">
     <input type="text" style="width: 20em;" name="givenName" placeholder="Vorname" required=true minlength="2" />
-    <input type="text" style="width: 40em;" name="surName" placeholder="Nachname" required=true minlength="2" />
+    <input type="text" style="width: 40em;" name="surname" placeholder="Nachname" required=true minlength="2" />
     <br>
     <input type="email" style="width: 20em;" name="eMail" placeholder="E-Mailadresse" required=true minlength="2" />
     <br>
@@ -47,18 +47,24 @@
     </select>
     <input type="range" min="1" max="5" name="intensity"> <label for="intensity">Intensität</label><br />
     <button type="submit" onclick="sendForm()">Senden</button>
+    <p id="submitStatus" hidden></p>
   </form>
 
 </body>
 <script>
   function sendForm() {
     var form = document.getElementById("form");
+    var submitStatus = document.getElementById("submitStatus");
+    submitStatus.removeAttribute("hidden", "");
+    var statusMessage = "";
+
     if (form.checkValidity()) {
-      alert("Ich würde jetzt zum Backend gehen, wenn es eins gäbe.");
+      statusMessage = "Server nicht erreichbar. Bitte versuch es später noch einmal.";
     }
     else {
-      alert("Bitte Eingaben prüfen.");
+      statusMessage = "Bitte prüfe deine Angaben.";
     }
+    submitStatus.innerText = statusMessage;
   }
 
   var positionDisplay = document.getElementById("positionDisplay");
