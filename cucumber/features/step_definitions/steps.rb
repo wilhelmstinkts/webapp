@@ -35,9 +35,9 @@ def set_selector(input_placeholder, option, config)
   matching_input.exists? && matching_input.select(option)
 end
 
-When("I fill in following:") do |table|
+When('I fill in following:') do |table|
   # table is a Cucumber::MultilineArgument::DataTable
-  for property in table.column_names do
+  table.column_names.each do |property|
     set_text_input(property, table.hashes[0][property], config)
     set_selector(property, table.hashes[0][property], config)
   end
