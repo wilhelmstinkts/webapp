@@ -31,4 +31,5 @@ jobs:
           bundle -v          
           bundle install
       - name: Carry out behaviour tests
+        working-directory: ./cucumber
         run: cucumber
