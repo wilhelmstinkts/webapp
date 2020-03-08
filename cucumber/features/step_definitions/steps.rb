@@ -49,7 +49,7 @@ When('I open the main page') do
   browser.goto url
 end
 
-When("I agree to terms and conditions") do
+When('I agree to terms and conditions') do
   checkbox = browser.checkbox(name: 'checkConsent')
   checkbox.set
 end
