@@ -49,6 +49,11 @@ When('I open the main page') do
   browser.goto url
 end
 
+When("I agree to terms and conditions") do
+  checkbox = browser.checkbox(name: 'checkConsent')
+  checkbox.set
+end
+
 Then('I should see {string}') do |must_be_shown|
   expect(visible_within_timeout?(must_be_shown, config)).to be(true)
 end
