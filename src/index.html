@@ -36,7 +36,7 @@
       verwenden</button>
     <p id="positionDisplay" hidden></p>
     <br>
-    <select name="kind" placeholder="Wonach stinkt es?" required>
+    <select onchange="showDiverse()" id="selectFlavor" name="kind" placeholder="Wonach stinkt es?" required>
       <option value="" disabled selected hidden>Wonach stinkt es?</option>
       <option>Kaffee</option>
       <option>Schokolade</option>
@@ -45,6 +45,7 @@
       <option>Lack</option>
       <option>Sonstiges</option>
     </select>
+    <input type="text" id="inputDiverse" placeholder="Bitte Geruch beschreiben" style="width: 40em;" hidden/>
     <input type="range" min="1" max="5" name="intensity"> <label for="intensity">Intensität</label><br />
     <button type="submit" onclick="sendForm()">Senden</button>
     <p id="submitStatus" hidden></p>
@@ -102,6 +103,20 @@
     var toggleButton = document.getElementById("buttonPositiontoggle");
     toggleButton.innerText = "Meine Position verwenden";
     toggleButton.onclick = getLocation;
+  }
+
+  function showDiverse(){
+    var inputDiverse = document.getElementById("inputDiverse");
+    var selection = document.getElementById("selectFlavor").value;
+    if (selection=="Sonstiges"){
+      inputDiverse.removeAttribute("hidden");
+      inputDiverse.setAttribute("required", "");
+    }
+    else {
+      inputDiverse.removeAttribute("required");
+      inputDiverse.setAttribute("hidden", "");
+    }
+
   }
 </script>
 
