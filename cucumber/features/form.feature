@@ -57,3 +57,18 @@ Feature: Form
     And I click "Meine Position verwenden"
     When I click "Senden"
     Then I should see "Server nicht erreichbar. Bitte versuch es später noch einmal."
+
+  Scenario: Toggle Diverse Input
+    When I open the main page
+    And I click "Meine Position verwenden"
+    And I fill in following:
+      | Vorname | Nachname | E-Mailadresse     | Wonach stinkt es? |
+      | Hans    | Wurst    | hans.wurst@web.de | Sonstiges         |
+    Then I should see "Bitte Geruch beschreiben"
+    When I click "Senden"
+    Then I should see "Bitte prüfe deine Angaben"
+    And I fill in following:
+      | Bitte Geruch beschreiben |
+      | Tomatensalat             |
+    When I click "Senden"
+    Then I should see "Server nicht erreichbar. Bitte versuch es später noch einmal."
