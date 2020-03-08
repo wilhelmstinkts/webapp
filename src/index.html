@@ -45,9 +45,10 @@
       <option>Lack</option>
       <option>Sonstiges</option>
     </select>
-    <input type="text" id="inputDiverse" placeholder="Bitte Geruch beschreiben" style="width: 40em;" hidden/>
+    <input type="text" id="inputDiverse" placeholder="Bitte Geruch beschreiben" style="width: 40em;" hidden />
     <input type="range" min="1" max="5" name="intensity"> <label for="intensity">Intensität</label><br />
-    <input type="checkbox" name="checkConsent" required=true> <label for="checkConsent"> Ich bin damit einverstanden, dass meine eingegebenen Daten an die Senatsverwaltung für blablabla gesendet werden.</label> <br />
+    <input type="checkbox" name="checkConsent" required=true> <label for="checkConsent"> Ich bin damit einverstanden,
+      dass meine eingegebenen Daten an die Senatsverwaltung für blablabla gesendet werden.</label> <br />
     <button type="submit" onclick="sendForm()">Senden</button>
     <p id="submitStatus" hidden></p>
   </form>
@@ -106,10 +107,10 @@
     toggleButton.onclick = getLocation;
   }
 
-  function showDiverse(){
+  function showDiverse() {
     var inputDiverse = document.getElementById("inputDiverse");
     var selection = document.getElementById("selectFlavor").value;
-    if (selection=="Sonstiges"){
+    if (selection == "Sonstiges") {
       inputDiverse.removeAttribute("hidden");
       inputDiverse.setAttribute("required", "");
     }

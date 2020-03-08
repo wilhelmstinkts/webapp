@@ -30,14 +30,24 @@ Feature: Form
     And I fill in following:
       | Vorname | Nachname | E-Mailadresse     | Straße          | Hausnummer | Wonach stinkt es? |
       | Hans    | Wurst    | hans.wurst@web.de | Garibaldestraße | 205 b      | Biomüll           |
+    And I agree to terms and conditions
     When I click "Senden"
     Then I should see "Server nicht erreichbar. Bitte versuch es später noch einmal."
+
+  Scenario: Not agreeing to terms and conditions fails
+    When I open the main page
+    And I fill in following:
+      | Vorname | Nachname | E-Mailadresse     | Straße          | Hausnummer | Wonach stinkt es? |
+      | Hans    | Wurst    | hans.wurst@web.de | Garibaldestraße | 205 b      | Biomüll           |    
+    When I click "Senden"
+    Then I should see "Bitte prüfe deine Angaben"
 
   Scenario: Invalid email input fails
     When I open the main page
     And I fill in following:
       | Vorname | Nachname | E-Mailadresse           | Straße          | Hausnummer | Wonach stinkt es? |
       | Hans    | Wurst    | hanswurstÄtJimeyldotcom | Garibaldestraße | 205 b      | Biomüll           |
+    And I agree to terms and conditions
     When I click "Senden"
     Then I should see "Bitte prüfe deine Angaben"
 
@@ -46,6 +56,7 @@ Feature: Form
     And I fill in following:
       | Vorname | Nachname | E-Mailadresse     | Wonach stinkt es? |
       | Hans    | Wurst    | hans.wurst@web.de | Biomüll           |
+    And I agree to terms and conditions
     When I click "Senden"
     Then I should see "Bitte prüfe deine Angaben"
 
@@ -55,6 +66,7 @@ Feature: Form
       | Vorname | Nachname | E-Mailadresse     | Wonach stinkt es? |
       | Hans    | Wurst    | hans.wurst@web.de | Biomüll           |
     And I click "Meine Position verwenden"
+    And I agree to terms and conditions
     When I click "Senden"
     Then I should see "Server nicht erreichbar. Bitte versuch es später noch einmal."
 
@@ -65,7 +77,8 @@ Feature: Form
       | Vorname | Nachname | E-Mailadresse     | Wonach stinkt es? |
       | Hans    | Wurst    | hans.wurst@web.de | Sonstiges         |
     Then I should see "Bitte Geruch beschreiben"
-    When I click "Senden"
+    When I agree to terms and conditions
+    And I click "Senden"
     Then I should see "Bitte prüfe deine Angaben"
     And I fill in following:
       | Bitte Geruch beschreiben |
