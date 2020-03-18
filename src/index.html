@@ -13,6 +13,7 @@
 
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/form.css">
 
   <meta name="theme-color" content="#fafafa">
 </head>
@@ -24,14 +25,16 @@
 
   <!-- Add your site or application content here -->
   <form id="form" onsubmit="return false">
-    <input type="text" style="width: 20em;" name="givenName" placeholder="Vorname" required=true minlength="2" />
-    <input type="text" style="width: 40em;" name="surname" placeholder="Nachname" required=true minlength="2" />
-    <br>
+    <div class="formRow">
+    <input type="text" style="flex:1;" name="givenName" placeholder="Vorname" required=true minlength="2" />
+    <input type="text" style="flex:2;" name="surname" placeholder="Nachname" required=true minlength="2" />
+  </div>
     <input type="email" style="width: 20em;" name="eMail" placeholder="E-Mailadresse" required=true minlength="2" />
-    <br>
+    <div class="formRow">
     <input type="text" id="inputStreet" style="width: 20em;" name="street" placeholder="Straße" required=true
       minlength="2" />
     <input type="text" id="inputNumber" style="width: 7em;" name="number" placeholder="Hausnummer" required=true />
+    </div>
     <button id="buttonPositiontoggle" name="notAdress" type="button" onclick="getLocation()">Meine Position
       verwenden</button>
     <p id="positionDisplay" hidden></p>
