@@ -1,0 +1,23 @@
+#form{
+    display: flex;
+    flex-direction: column;
+    max-width: 10cm;
+    margin: auto;
+}
+
+.formRow{
+    display: flex;
+    flex-direction: row;
+}
+
+input{
+    margin: 5px;
+}
+
+button{
+    margin: 5px;
+}
+
+select{
+    margin: 5px;
+}
