@@ -1,7 +1,7 @@
 #form{
     display: flex;
     flex-direction: column;
-    max-width: 10cm;
+    max-width: 15cm;
     margin: auto;
     border: 1px solid #090909;
     box-shadow: 2px 2px lightgray;
