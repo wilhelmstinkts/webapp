@@ -1,5 +1,7 @@
 body {
-    background-color: lightgreen;
+    background-image: url(../img/background.jpg);
+    background-size: auto;
+    background-repeat: no-repeat;
 }
 
 #form{
@@ -8,8 +10,6 @@ body {
     flex-direction: column;
     max-width: 15cm;
     margin: auto;
-    border: 1px solid #090909;
-    box-shadow: 2px 2px lightgray;
     padding: 5px;
 }
 
