@@ -18,6 +18,10 @@ input{
     margin: 5px;
 }
 
+input[type="checkbox"]{
+    max-height: 1em;
+}
+
 button{
     margin: 5px;
 }
