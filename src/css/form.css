@@ -24,3 +24,15 @@ button{
 select{
     margin: 5px;
 }
+
+select:required:invalid {
+    color: gray;
+}
+
+option[value=""][disabled] {
+    display: none;
+}
+
+option {
+    color: black;
+}
