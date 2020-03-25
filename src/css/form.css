@@ -3,6 +3,9 @@
     flex-direction: column;
     max-width: 10cm;
     margin: auto;
+    border: 1px solid #090909;
+    box-shadow: 2px 2px lightgray;
+    padding: 5px;
 }
 
 .formRow{
