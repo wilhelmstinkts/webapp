@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="css/form.css">
 
   <meta name="theme-color" content="#fafafa">
+  <script type="text/javascript" src="js/services/locationService.js"></script>
 </head>
 
 <body>
@@ -50,15 +51,16 @@
       <option>Lack</option>
       <option>Sonstiges</option>
     </select>
-    <div class="formRow">      
+    <div class="formRow">
       <input type="text" id="inputDiverse" placeholder="Bitte Geruch beschreiben" style="width: 40em;" hidden />
     </div>
     <div class="formRow">
-      <input style="flex:1;" type="range" min="1" max="5" name="intensity"> 
+      <input style="flex:1;" type="range" min="1" max="5" name="intensity">
       <label style="flex:1;" for="intensity">Intensität</label>
     </div>
     <div class="formRow">
-      <input type="checkbox" style="flex: 1;" name="checkConsent" required=true> <label style="flex: 20;" for="checkConsent"> Ich bin damit einverstanden,
+      <input type="checkbox" style="flex: 1;" name="checkConsent" required=true> <label style="flex: 20;"
+        for="checkConsent"> Ich bin damit einverstanden,
         dass meine eingegebenen Daten an die Senatsverwaltung für blablabla gesendet werden.</label>
     </div>
     <button type="submit" onclick="sendForm()">Senden</button>
@@ -67,13 +69,26 @@
 
 </body>
 <script>
-  function sendForm() {
+  async function sendForm() {
     var form = document.getElementById("form");
     var submitStatus = document.getElementById("submitStatus");
     submitStatus.removeAttribute("hidden", "");
     var statusMessage = "";
 
     if (form.checkValidity()) {
+      let address;
+      if (coordinates === undefined) {
+        address = {
+          country: "Germany",
+          city: "Berlin",
+          zip: "13158",
+          street: document.getElementById("inputStreet").value,
+          number: document.getElementById("inputNumber").value
+        };
+        coordinates = await LocationService.getCoordinatesForAddress(address);
+        console.log(coordinates);
+      }
+
       statusMessage = "Server nicht erreichbar. Bitte versuch es später noch einmal.";
     }
     else {
@@ -83,10 +98,11 @@
   }
 
   var positionDisplay = document.getElementById("positionDisplay");
+  let coordinates;
 
   function getLocation() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition);
+      navigator.geolocation.getCurrentPosition(saveAndshowPosition);
       document.getElementById("inputStreet").setAttribute("hidden", "true");
       document.getElementById("inputNumber").setAttribute("hidden", "true");
       document.getElementById("inputStreet").removeAttribute("required", "");
@@ -101,7 +117,8 @@
     }
   }
 
-  function showPosition(position) {
+  function saveAndshowPosition(position) {
+    coordinates = position.coords;
     positionDisplay.removeAttribute("hidden", "");
     positionDisplay.innerHTML = "Deine Position: <br />"
       + position.coords.latitude.toLocaleString('de-DE', { maximumFractionDigits: 5 }) + "° Breite <br />"
