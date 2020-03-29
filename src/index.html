@@ -89,6 +89,10 @@
         console.log(coordinates);
       }
 
+      if (address === undefined) {
+       address = await LocationService.getAddressForCoordinates(coordinates);
+      }
+
       statusMessage = "Server nicht erreichbar. Bitte versuch es später noch einmal.";
     }
     else {
@@ -118,6 +122,7 @@
   }
 
   function saveAndshowPosition(position) {
+    console.log("Ich zeige die Coordinaten an");
     coordinates = position.coords;
     positionDisplay.removeAttribute("hidden", "");
     positionDisplay.innerHTML = "Deine Position: <br />"
