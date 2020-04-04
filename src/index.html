@@ -76,24 +76,28 @@
     var statusMessage = "";
 
     if (form.checkValidity()) {
-      let address;
-      if (coordinates === undefined) {
-        address = {
-          country: "Germany",
-          city: "Berlin",
-          zip: "13158",
-          street: document.getElementById("inputStreet").value,
-          number: document.getElementById("inputNumber").value
-        };
-        coordinates = await LocationService.getCoordinatesForAddress(address);
-        console.log(coordinates);
-      }
+      try {
+        let address;
+        if (coordinates === undefined) {
+          address = {
+            country: "Germany",
+            city: "Berlin",
+            zip: "13158",
+            street: document.getElementById("inputStreet").value,
+            number: document.getElementById("inputNumber").value
+          };
+          coordinates = await LocationService.getCoordinatesForAddress(address);
+        }
 
-      if (address === undefined) {
-       address = await LocationService.getAddressForCoordinates(coordinates);
-      }
+        if (address === undefined) {
+          address = await LocationService.getAddressForCoordinates(coordinates);
+        }
 
-      statusMessage = "Server nicht erreichbar. Bitte versuch es später noch einmal.";
+        statusMessage = "Server nicht erreichbar. Bitte versuch es später noch einmal.";
+      }
+      catch{
+        statusMessage = "Wir konnten diese Adresse nicht in Wilhelmsruh finden. Bitte prüfe deine Eingabe oder nutze die Standortbestimmung.";
+      }
     }
     else {
       statusMessage = "Bitte prüfe deine Angaben.";

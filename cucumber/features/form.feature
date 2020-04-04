@@ -29,10 +29,19 @@ Feature: Form
     When I open the main page
     And I fill in following:
       | Vorname | Nachname | E-Mailadresse     | Straße          | Hausnummer | Wonach stinkt es? |
-      | Hans    | Wurst    | hans.wurst@web.de | Garibaldestraße | 205 b      | Biomüll           |
+      | Hans    | Wurst    | hans.wurst@web.de | Hielscherstraße | 1          | Biomüll           |
     And I agree to terms and conditions
     When I click "Senden"
     Then I should see "Server nicht erreichbar. Bitte versuch es später noch einmal."
+
+  Scenario: Nonexistent address causes error
+    When I open the main page
+    And I fill in following:
+      | Vorname | Nachname | E-Mailadresse     | Straße          | Hausnummer | Wonach stinkt es? |
+      | Hans    | Wurst    | hans.wurst@web.de | Garibaldestraße | 205 b      | Biomüll           |
+    And I agree to terms and conditions
+    When I click "Senden"
+    Then I should see "Wir konnten diese Adresse nicht in Wilhelmsruh finden. Bitte prüfe deine Eingabe oder nutze die Standortbestimmung."
 
   Scenario: Not agreeing to terms and conditions fails
     When I open the main page
