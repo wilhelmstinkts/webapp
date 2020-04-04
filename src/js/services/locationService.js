@@ -8,7 +8,6 @@ class LocationService {
         const response = await this.executeGetRequest(query);
         if (response.ok) {
             const body = await response.json();
-            console.log(body);
             if (body.length < 1) {
                 throw "No entry for this address found";
             }
