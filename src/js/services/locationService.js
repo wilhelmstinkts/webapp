@@ -4,16 +4,22 @@ class LocationService {
     }
 
     static async getCoordinatesForAddress(address) {
-        const query = `search?country=${address.country}&city=${address.city}&postalcode=${address.zip}&street=${address.number} ${address.street}&format=json`;
+        const query = `search?country=${address.country}&city=${address.city}&postalcode=${address.zip}&street=${address.number} ${address.street}&format=json&addressdetails=1`;
         const response = await this.executeGetRequest(query);
         if (response.ok) {
             const body = await response.json();
+            console.log(body);
             if (body.length < 1) {
                 throw "No entry for this address found";
             }
+            const validEntries = body.filter((e) => e.address.postcode === "13158");
+            if (validEntries.length < 1) {
+                throw "No entry for this address found";
+            }
+
             return {
-                latitude: body[0].lat,
-                longitude: body[0].longitude
+                latitude: validEntries[0].lat,
+                longitude: validEntries[0].longitude
             };
         }
         else {
