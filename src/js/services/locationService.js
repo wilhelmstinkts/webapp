@@ -9,11 +9,11 @@ class LocationService {
         if (response.ok) {
             const body = await response.json();
             if (body.length < 1) {
-                throw "No entry for this address found";
+                throw new AddressNotFoundException();
             }
             const validEntries = body.filter((e) => e.address.postcode === "13158");
             if (validEntries.length < 1) {
-                throw "No entry for this address found";
+                throw new AddressNotFoundException();
             }
 
             return {
