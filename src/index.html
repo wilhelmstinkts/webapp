@@ -17,6 +17,7 @@
 
   <meta name="theme-color" content="#fafafa">
   <script type="text/javascript" src="js/services/locationService.js"></script>
+  <script type="text/javascript" src="js/exceptions/addressNotFoundException.js"></script>
 </head>
 
 <body>
@@ -78,7 +79,7 @@
     if (form.checkValidity()) {
       try {
         let address;
-        if (coordinates === undefined) {
+        if (coordinates === undefined && address !== undefined) {
           address = {
             country: "Germany",
             city: "Berlin",
@@ -89,14 +90,23 @@
           coordinates = await LocationService.getCoordinatesForAddress(address);
         }
 
-        if (address === undefined) {
+        else if (address === undefined && coordinates !== undefined) {
           address = await LocationService.getAddressForCoordinates(coordinates);
+        }
+
+        else {
+          throw "Neither coordinates nor address defined.";
         }
 
         statusMessage = "Server nicht erreichbar. Bitte versuch es später noch einmal.";
       }
-      catch{
-        statusMessage = "Wir konnten diese Adresse nicht in Wilhelmsruh finden. Bitte prüfe deine Eingabe oder nutze die Standortbestimmung.";
+      catch (error) {
+        if (error instanceof AddressNotFoundException) {
+          statusMessage = "Wir konnten diese Adresse nicht in Wilhelmsruh finden. Bitte prüfe deine Eingabe oder nutze die Standortbestimmung.";
+        }
+        else {
+          statusMessage = `Unerwarteter Fehler: ${error}`;
+        }
       }
     }
     else {
@@ -109,8 +119,24 @@
   let coordinates;
 
   function getLocation() {
+    positionDisplay.removeAttribute("hidden", "");
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(saveAndshowPosition);
+      navigator.geolocation.getCurrentPosition(saveAndshowPosition, showCoordinateError);
+    } else {
+      positionDisplay.innerHTML = "Dein Browser unterstützt keine Ortung.";
+    }
+  }
+
+  function showCoordinateError(){
+    positionDisplay.innerHTML = "Ortung nicht erfolgreich. Bitte räume dieser Seite Zugriff auf deinen Standort ein oder nutze die Standortangabe als Adresse.";
+  }
+
+  function saveAndshowPosition(position) {
+    if (position.coords) {
+      coordinates = position.coords;
+      positionDisplay.innerHTML = "Deine Position: <br />"
+        + position.coords.latitude.toLocaleString('de-DE', { maximumFractionDigits: 5 }) + "° Breite <br />"
+        + position.coords.longitude.toLocaleString('de-DE', { maximumFractionDigits: 5 }) + "° Länge";
       document.getElementById("inputStreet").setAttribute("hidden", "true");
       document.getElementById("inputNumber").setAttribute("hidden", "true");
       document.getElementById("inputStreet").removeAttribute("required", "");
@@ -118,20 +144,7 @@
       var toggleButton = document.getElementById("buttonPositiontoggle");
       toggleButton.innerText = "Adresse eingeben";
       toggleButton.onclick = showAdress;
-
-
-    } else {
-      positionDisplay.innerHTML = "Dein Browser unterstützt keine Ortung.";
     }
-  }
-
-  function saveAndshowPosition(position) {
-    console.log("Ich zeige die Coordinaten an");
-    coordinates = position.coords;
-    positionDisplay.removeAttribute("hidden", "");
-    positionDisplay.innerHTML = "Deine Position: <br />"
-      + position.coords.latitude.toLocaleString('de-DE', { maximumFractionDigits: 5 }) + "° Breite <br />"
-      + position.coords.longitude.toLocaleString('de-DE', { maximumFractionDigits: 5 }) + "° Länge";
   }
 
   function showAdress() {
