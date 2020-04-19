@@ -79,7 +79,7 @@
     if (form.checkValidity()) {
       try {
         let address;
-        if (coordinates === undefined && address !== undefined) {
+        if (coordinates === undefined) {
           address = {
             country: "Germany",
             city: "Berlin",
@@ -90,12 +90,8 @@
           coordinates = await LocationService.getCoordinatesForAddress(address);
         }
 
-        else if (address === undefined && coordinates !== undefined) {
+        else if (address === undefined) {
           address = await LocationService.getAddressForCoordinates(coordinates);
-        }
-
-        else {
-          throw "Neither coordinates nor address defined.";
         }
 
         statusMessage = "Server nicht erreichbar. Bitte versuch es später noch einmal.";
