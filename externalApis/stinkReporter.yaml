@@ -1,0 +1,153 @@
+openapi: "3.0.2"
+info:
+  title: Stink Reporter
+  description: "Report when and where it stinks and query for past stinks."
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 0.0.0
+servers:
+  - url: https://hierstinkts.wilhelm-gibt-keine-ruh.de/api
+tags:
+  - name: report
+    description: "Report when and where it stinks"
+paths:
+  /v0/report:
+    post:
+      description: "Save new report to database and write email"
+      tags:
+        - report
+      operationId: postNewReport
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                report:
+                  $ref: "#/components/schemas/report"
+                captchaToken:
+                  type: string
+                  description: "The token assigned by the captcha provider"
+      responses:
+        "201":
+          description: "Message saved"
+        "400":
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "You must provide a message in the request body"
+    get:
+      description: "Get previously saved reports"
+      tags:
+        - report
+      operationId: getReports
+      responses:
+        "200":
+          description: "All reports"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/report"
+components:
+  schemas:
+    report:
+      type: object
+      description: "The report of a notable stink event"
+      properties:
+        time:
+          type: string
+          format: datetime
+          example: "2020-03-10T12:00:00Z"
+        location:
+          type: object
+          properties:
+            address:
+              $ref: "#/components/schemas/address"
+            coordinates:
+              $ref: "#/components/schemas/coordinates"
+          required: 
+            - coordinates
+        stink:
+          $ref: "#/components/schemas/stink"
+        reporter:
+          $ref: "#/components/schemas/reporter"
+      required:
+        - time
+        - location
+        - stink
+        - reporter
+    address:
+      type: object
+      properties:
+        street:
+          type: string
+          example: "Garibaldistraße"
+        number:
+          type: string
+          example: "7 A"
+        zip:
+          type: string
+          enum:
+            - "13158"
+        city:
+          type: string
+          enum:
+            - "Berlin"
+        country:
+          type: string
+          enum:
+            - "Germany"
+      required:
+        - street
+        - number
+        - zip
+        - city
+        - country
+    coordinates:
+      type: object
+      properties:
+        longitude:
+          type: number
+          example: 40.1234567
+          minimum: -90
+          maximum: +90
+        latitude:
+          type: number
+          example: -40.1234567
+          minimum: -180
+          maximum: +180
+      required:
+        - longitude
+        - latitude
+    stink:
+      type: object
+      properties:
+        kind:
+          type: string
+          example: "Biomüll"
+        intensity:
+          type: number
+          example: 3
+          minimum: 1
+          maximum: 5
+      required:
+        - kind
+        - intensity
+    reporter:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Jane Doe"
+        email:
+          type: string
+          example: "jane.doe@provider.org"
+      required:
+        - name
+        - email
