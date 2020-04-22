@@ -1,0 +1,1 @@
+docker run --rm -v %cd%:/project openapitools/openapi-generator-cli generate -i /project/externalApis/stinkReporter.yaml -g javascript -o /project/src/js/services/generated
