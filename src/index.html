@@ -17,6 +17,7 @@
 
   <meta name="theme-color" content="#fafafa">
   <script type="text/javascript" src="js/services/locationService.js"></script>
+  <script type="text/javascript" src="js/services/reportService.js"></script>
   <script type="text/javascript" src="js/exceptions/addressNotFoundException.js"></script>
 </head>
 
@@ -28,11 +29,11 @@
   <!-- Add your site or application content here -->
   <form id="form" onsubmit="return false">
     <div class="formRow">
-      <input type="text" style="flex:1;" name="givenName" placeholder="Vorname" required=true minlength="2" />
-      <input type="text" style="flex:2;" name="surname" placeholder="Nachname" required=true minlength="2" />
+      <input type="text" style="flex:1;" id="inputGivenName" name="givenName" placeholder="Vorname" required=true minlength="2" />
+      <input type="text" style="flex:2;" id="inputSurname" name="surname" placeholder="Nachname" required=true minlength="2" />
     </div>
     <div class="formRow">
-      <input type="email" style="width: 100%;" name="eMail" placeholder="E-Mailadresse" required=true minlength="2" />
+      <input type="email" id="inputEmail" style="width: 100%;" name="eMail" placeholder="E-Mailadresse" required=true minlength="2" />
     </div>
     <div class="formRow">
       <input type="text" id="inputStreet" style="flex:3;" name="street" placeholder="Straße" required=true
@@ -56,7 +57,7 @@
       <input type="text" id="inputDiverse" placeholder="Bitte Geruch beschreiben" style="width: 40em;" hidden />
     </div>
     <div class="formRow">
-      <input style="flex:1;" type="range" min="1" max="5" name="intensity">
+      <input style="flex:1;" id="inputStinkIntensity" type="range" min="1" max="5" name="intensity">
       <label style="flex:1;" for="intensity">Intensität</label>
     </div>
     <div class="formRow">
@@ -94,7 +95,23 @@
           address = await LocationService.getAddressForCoordinates(coordinates);
         }
 
-        statusMessage = "Server nicht erreichbar. Bitte versuch es später noch einmal.";
+        const reportToSend = {
+          time: new Date().toISOString(),
+          location: {
+            address: address,
+            coordinates: coordinates
+          },
+          stink:{
+            kind: document.getElementById("selectFlavor").value === "Sonstiges" ? document.getElementById("inputDiverse").value : document.getElementById("selectFlavor").value,
+            intensity: document.getElementById("inputStinkIntensity").value
+          },
+          reporter:{
+            name: `${document.getElementById("inputGivenName").value} ${document.getElementById("inputSurname").value}`,
+            email: document.getElementById("inputEmail").value
+          }
+        };
+        ReportService.postReport(reportToSend);
+        statusMessage = "Danke für deine Meldung!";
       }
       catch (error) {
         if (error instanceof AddressNotFoundException) {
