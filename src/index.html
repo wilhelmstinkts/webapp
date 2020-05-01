@@ -110,8 +110,12 @@
             email: document.getElementById("inputEmail").value
           }
         };
-        ReportService.postReport(reportToSend);
-        statusMessage = "Danke für deine Meldung!";
+        if (ReportService.postReport(reportToSend) === true) {
+         statusMessage = "Danke für deine Meldung!";
+        }
+        else{
+          statusMessage = "Server nicht erreichbar. Bitte versuch es später noch einmal.";
+        }
       }
       catch (error) {
         if (error instanceof AddressNotFoundException) {
