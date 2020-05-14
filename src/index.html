@@ -18,6 +18,7 @@
   <meta name="theme-color" content="#fafafa">
   <script type="text/javascript" src="js/services/locationService.js"></script>
   <script type="text/javascript" src="js/services/reportService.js"></script>
+  <script type="text/javascript" src="environment.js"></script>
   <script type="text/javascript" src="js/exceptions/addressNotFoundException.js"></script>
 </head>
 
@@ -26,7 +27,7 @@
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
   <![endif]-->
 
-  <!-- Add your site or application content here -->
+  <!-- Add your site or application content here -->  
   <form id="form" onsubmit="return false">
     <div class="formRow">
       <input type="text" style="flex:1;" id="inputGivenName" name="givenName" placeholder="Vorname" required=true minlength="2" />
@@ -110,7 +111,7 @@
             email: document.getElementById("inputEmail").value
           }
         };
-        if (ReportService.postReport(reportToSend) === true) {
+        if (!Environment.isTest() && ReportService.postReport(reportToSend) === true) {
          statusMessage = "Danke für deine Meldung!";
         }
         else{
