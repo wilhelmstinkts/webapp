@@ -26,15 +26,13 @@
   <!--[if IE]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
   <![endif]-->
-
-  <!-- Add your site or application content here -->  
-  <form id="form" onsubmit="return false">
+  <form id="form" autocomplete="on" onsubmit="return false">
     <div class="formRow">
-      <input type="text" style="flex:1;" id="inputGivenName" name="givenName" placeholder="Vorname" required=true minlength="2" />
-      <input type="text" style="flex:2;" id="inputSurname" name="surname" placeholder="Nachname" required=true minlength="2" />
+      <input type="text" style="flex:1;" id="inputGivenName" name="fname" placeholder="Vorname" required=true minlength="2" autocomplete="given-name" />
+      <input type="text" style="flex:2;" id="inputSurname" name="lname" placeholder="Nachname" required=true minlength="2" autocomplete="family-name"/>
     </div>
     <div class="formRow">
-      <input type="email" id="inputEmail" style="width: 100%;" name="eMail" placeholder="E-Mailadresse" required=true minlength="2" />
+      <input type="email" id="inputEmail" style="width: 100%;" name="email" placeholder="E-Mailadresse" required=true minlength="2" autocomplete="email"/>
     </div>
     <div class="formRow">
       <input type="text" id="inputStreet" style="flex:3;" name="street" placeholder="Straße" required=true
