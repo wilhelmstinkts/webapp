@@ -27,29 +27,35 @@
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
   <![endif]-->
   <form id="form" autocomplete="on" onsubmit="return false">
+    <h3>Wer bist du?</h3>
     <div class="formRow">
-      <input type="text" style="flex:1;" id="inputGivenName" name="fname" placeholder="Vorname" required=true minlength="2" autocomplete="given-name" />
-      <input type="text" style="flex:2;" id="inputSurname" name="lname" placeholder="Nachname" required=true minlength="2" autocomplete="family-name"/>
+      <input type="text" style="flex:1;" id="inputGivenName" name="fname" placeholder="Vorname" required=true
+        minlength="2" autocomplete="given-name" />
+      <input type="text" style="flex:2;" id="inputSurname" name="lname" placeholder="Nachname" required=true
+        minlength="2" autocomplete="family-name" />
     </div>
     <div class="formRow">
-      <input type="email" id="inputEmail" style="width: 100%;" name="email" placeholder="E-Mailadresse" required=true minlength="2" autocomplete="email"/>
+      <input type="email" id="inputEmail" style="width: 100%;" name="email" placeholder="E-Mailadresse" required=true
+        minlength="2" autocomplete="email" />
     </div>
+    <h3>Wo stinkt es?</h3>
+    <button id="buttonPositiontoggle" name="notAdress" type="button" onclick="getLocation()">Meine Position
+      verwenden</button>
     <div class="formRow">
       <input type="text" id="inputStreet" style="flex:3;" name="street" placeholder="Straße" required=true
         minlength="2" />
       <input type="text" id="inputNumber" style="flex:1;" name="number" placeholder="Hausnummer" required=true />
     </div>
-    <button id="buttonPositiontoggle" name="notAdress" type="button" onclick="getLocation()">Meine Position
-      verwenden</button>
     <p id="positionDisplay" hidden></p>
     <br>
-    <select onchange="showDiverse()" id="selectFlavor" name="kind" placeholder="Wonach stinkt es?" required>
-      <option value="" disabled selected hidden>Wonach stinkt es?</option>
+    <h3>Wie stinkt es?</h3>
+    <select onchange="showDiverse()" id="selectFlavor" name="kind" placeholder="Wonach riecht es?" required>
+      <option value="" disabled selected hidden>Wonach riecht es?</option>
+      <option>Biomüll</option>
+      <option>Lack</option>
       <option>Kaffee</option>
       <option>Schokolade</option>
       <option>Bäckerei</option>
-      <option>Biomüll</option>
-      <option>Lack</option>
       <option>Sonstiges</option>
     </select>
     <div class="formRow">
@@ -59,6 +65,7 @@
       <input style="flex:1;" id="inputStinkIntensity" type="range" min="1" max="5" name="intensity">
       <label style="flex:1;" for="intensity">Intensität</label>
     </div>
+    <hr />
     <div class="formRow">
       <input type="checkbox" style="flex: 1;" name="checkConsent" required=true> <label style="flex: 20;"
         for="checkConsent"> Ich bin damit einverstanden,
@@ -100,19 +107,19 @@
             address: address,
             coordinates: coordinates
           },
-          stink:{
+          stink: {
             kind: document.getElementById("selectFlavor").value === "Sonstiges" ? document.getElementById("inputDiverse").value : document.getElementById("selectFlavor").value,
             intensity: document.getElementById("inputStinkIntensity").value
           },
-          reporter:{
+          reporter: {
             name: `${document.getElementById("inputGivenName").value} ${document.getElementById("inputSurname").value}`,
             email: document.getElementById("inputEmail").value
           }
         };
         if (!Environment.isTest() && ReportService.postReport(reportToSend) === true) {
-         statusMessage = "Danke für deine Meldung!";
+          statusMessage = "Danke für deine Meldung!";
         }
-        else{
+        else {
           statusMessage = "Server nicht erreichbar. Bitte versuch es später noch einmal.";
         }
       }
@@ -143,7 +150,7 @@
     }
   }
 
-  function showCoordinateError(){
+  function showCoordinateError() {
     positionDisplay.innerHTML = "Ortung nicht erfolgreich. Bitte räume dieser Seite Zugriff auf deinen Standort ein oder nutze die Standortangabe als Adresse.";
   }
 
