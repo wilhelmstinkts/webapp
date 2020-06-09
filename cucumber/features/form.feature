@@ -9,7 +9,7 @@ Feature: Form
     Then I should see "Straße"
     Then I should see "Hausnummer"
     Then I should see "Meine Position verwenden"
-    Then I should see "Wonach stinkt es?"
+    Then I should see "Wonach riecht es?"
     Then I should see "Intensität"
 
   Scenario: Toggle location when Location Access is off (default)
@@ -26,7 +26,7 @@ Feature: Form
   Scenario: Valid form triggers Backend call
     When I open the main page
     And I fill in following:
-      | Vorname | Nachname | E-Mailadresse     | Straße          | Hausnummer | Wonach stinkt es? |
+      | Vorname | Nachname | E-Mailadresse     | Straße          | Hausnummer | Wonach riecht es? |
       | Hans    | Wurst    | hans.wurst@web.de | Hielscherstraße | 1          | Biomüll           |
     And I agree to terms and conditions
     When I click "Senden"
@@ -35,7 +35,7 @@ Feature: Form
   Scenario: Nonexistent address causes error
     When I open the main page
     And I fill in following:
-      | Vorname | Nachname | E-Mailadresse     | Straße          | Hausnummer | Wonach stinkt es? |
+      | Vorname | Nachname | E-Mailadresse     | Straße          | Hausnummer | Wonach riecht es? |
       | Hans    | Wurst    | hans.wurst@web.de | Garibaldestraße | 205 b      | Biomüll           |
     And I agree to terms and conditions
     When I click "Senden"
@@ -44,7 +44,7 @@ Feature: Form
   Scenario: Not agreeing to terms and conditions fails
     When I open the main page
     And I fill in following:
-      | Vorname | Nachname | E-Mailadresse     | Straße          | Hausnummer | Wonach stinkt es? |
+      | Vorname | Nachname | E-Mailadresse     | Straße          | Hausnummer | Wonach riecht es? |
       | Hans    | Wurst    | hans.wurst@web.de | Garibaldestraße | 205 b      | Biomüll           |
     When I click "Senden"
     Then I should see "Bitte prüfe deine Angaben"
@@ -52,7 +52,7 @@ Feature: Form
   Scenario: Invalid email input fails
     When I open the main page
     And I fill in following:
-      | Vorname | Nachname | E-Mailadresse           | Straße          | Hausnummer | Wonach stinkt es? |
+      | Vorname | Nachname | E-Mailadresse           | Straße          | Hausnummer | Wonach riecht es? |
       | Hans    | Wurst    | hanswurstÄtJimeyldotcom | Garibaldestraße | 205 b      | Biomüll           |
     And I agree to terms and conditions
     When I click "Senden"
@@ -61,7 +61,7 @@ Feature: Form
   Scenario: Missing address and location fails
     When I open the main page
     And I fill in following:
-      | Vorname | Nachname | E-Mailadresse     | Wonach stinkt es? |
+      | Vorname | Nachname | E-Mailadresse     | Wonach riecht es? |
       | Hans    | Wurst    | hans.wurst@web.de | Biomüll           |
     And I agree to terms and conditions
     When I click "Senden"
@@ -71,7 +71,7 @@ Feature: Form
   # Scenario: Missing address is Ok when gps location is used
   #   When I open the main page
   #   And I fill in following:
-  #     | Vorname | Nachname | E-Mailadresse     | Wonach stinkt es? |
+  #     | Vorname | Nachname | E-Mailadresse     | Wonach riecht es? |
   #     | Hans    | Wurst    | hans.wurst@web.de | Biomüll           |
   #   And I click "Meine Position verwenden"
   #   And I agree to terms and conditions
@@ -81,7 +81,7 @@ Feature: Form
   Scenario: Toggle Diverse Input
     When I open the main page
     And I fill in following:
-      | Vorname | Nachname | E-Mailadresse     | Wonach stinkt es? | Straße      | Hausnummer |
+      | Vorname | Nachname | E-Mailadresse     | Wonach riecht es? | Straße      | Hausnummer |
       | Hans    | Wurst    | hans.wurst@web.de | Sonstiges         | Hertzstraße | 17         |
     Then I should see "Bitte Geruch beschreiben"
     When I agree to terms and conditions
