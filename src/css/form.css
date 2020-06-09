@@ -1,48 +1,48 @@
 body {
-    background-image: url(../img/background.jpg);
-    background-size: auto;
-    background-repeat: no-repeat;
+  background-image: url(../img/background.jpg);
+  background-size: auto;
+  background-repeat: no-repeat;
 }
 
-#form{
-    background-color: rgba(255,255,255,0.5);
-    display: flex;
-    flex-direction: column;
-    max-width: 15cm;
-    margin: auto;
-    padding: 5px;
+#form {
+  background-color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  flex-direction: column;
+  max-width: 15cm;
+  margin: auto;
+  padding: 5px;
 }
 
-.formRow{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+.formRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
-input{
-    margin: 5px;
+input {
+  margin: 5px;
 }
 
-input[type="checkbox"]{
-    max-height: 1em;
+input[type="checkbox"] {
+  max-height: 1em;
 }
 
-button{
-    margin: 5px;
+button {
+  margin: 5px;
 }
 
-select{
-    margin: 5px;
+select {
+  margin: 5px;
 }
 
 select:required:invalid {
-    color: gray;
+  color: gray;
 }
 
 option[value=""][disabled] {
-    display: none;
+  display: none;
 }
 
 option {
-    color: black;
+  color: black;
 }
