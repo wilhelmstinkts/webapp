@@ -3,13 +3,18 @@
 
 # TEAM
 
-    <name> -- <role> -- <twitter>
+    Arne -- Ideation
+    [Pixelbaker](https://github.com/pixelbaker) -- Code Reviews & Server Sponsor
+    [Mailantonia](https://github.com/mailantonia) -- Design & Software Development
+    [PhilippJust](https://github.com/PhilippJust) -- DevOps & Software Development
 
 # THANKS
 
-    <name>
+    Wilhelm gibt keine Ruh
 
 # TECHNOLOGY COLOPHON
 
     CSS3, HTML5
-    Apache Server Configs, jQuery, Modernizr, Normalize.css
+    Modernizr, Normalize.css
+    PHP, MySql
+    Cucumber
