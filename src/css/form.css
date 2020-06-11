@@ -55,10 +55,12 @@ option {
   display: flex;
   flex-direction: column;
   width: min-content;
+  flex: 1;
 }
 
 .intensityWrapper input {
   margin: 0 1em 0 1em;
+  width: 100%;
 }
 
 .intensityWrapper label {
@@ -68,6 +70,10 @@ option {
 .intensityWrapper div {
   display: flex;
   flex-direction: row;
+}
+
+.intensityLabels {
+  min-width: 8em;
 }
 
 .intensityLabels :last-child {
