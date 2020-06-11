@@ -38,7 +38,7 @@
       <input type="email" id="inputEmail" style="width: 100%;" name="email" placeholder="E-Mailadresse" required=true
         minlength="2" autocomplete="email" />
     </div>
-    <h3>Wo stinkt es?</h3>
+    <h3>Ort des Gestanks</h3>
     <button id="buttonPositiontoggle" name="notAdress" type="button" onclick="getLocation()">Meine Position
       verwenden</button>
     <div class="formRow">
@@ -47,8 +47,7 @@
       <input type="text" id="inputNumber" style="flex:1;" name="number" placeholder="Hausnummer" required=true />
     </div>
     <p id="positionDisplay" hidden></p>
-    <br>
-    <h3>Wie stinkt es?</h3>
+    <h3>Beschreibung des Gestanks</h3>
     <select onchange="showDiverse()" id="selectFlavor" name="kind" placeholder="Wonach riecht es?" required>
       <option value="" disabled selected hidden>Wonach riecht es?</option>
       <option>Biomüll</option>

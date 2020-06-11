@@ -13,6 +13,10 @@ body {
   padding: 5px;
 }
 
+h3 {
+  margin: 5px;
+}
+
 .formRow {
   display: flex;
   flex-direction: row;
