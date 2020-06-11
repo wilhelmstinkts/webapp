@@ -61,10 +61,18 @@
     <div class="formRow">
       <input type="text" id="inputDiverse" placeholder="Bitte Geruch beschreiben" style="width: 40em;" hidden />
     </div>
-    <div class="formRow">
-      <input style="flex:1;" id="inputStinkIntensity" type="range" min="1" max="5" name="intensity">
-      <label style="flex:1;" for="intensity">Intensität</label>
-    </div>
+    <div class="intensityWrapper">
+      <div>
+        <label for="intensity">Intensität</label>
+      </div>
+      <div>
+        <input id="inputStinkIntensity" type="range" min="1" max="5" name="intensity">
+      </div>
+      <div class="intensityLabels">
+        <div>Dezent</div>
+        <div>Sehr stark</div>
+      </div>
+    </div>    
     <hr />
     <div class="formRow">
       <input type="checkbox" style="flex: 1;" name="checkConsent" required=true> <label style="flex: 20;"
