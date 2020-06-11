@@ -61,6 +61,10 @@ option {
   margin: 0 1em 0 1em;
 }
 
+.intensityWrapper label {
+  font-weight: bold;
+}
+
 .intensityWrapper div {
   display: flex;
   flex-direction: row;
