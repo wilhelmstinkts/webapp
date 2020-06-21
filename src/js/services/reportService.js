@@ -6,7 +6,6 @@ class ReportService {
   static async postReport(report) {
     const response = await this.executePostRequest(this.serviceUrl(), {report: report});
     if (response.ok) {
-      console.log(JSON.stringify(response));
       return true;
     }
     else {
