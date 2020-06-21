@@ -1,0 +1,24 @@
+
+name: deploy app
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  deploy:
+    name: Deploy App
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Head
+      uses: actions/checkout@v2
+    - name: Delete Test Settings
+      working-directory: ./src
+      run: rm ./environment.js
+    - name: Upload ftp
+      uses: sebastianpopp/ftp-action@releases/v2
+      with:
+        host: ${{ secrets.FTP_SERVER }}
+        user: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        localDir: "src"
+        remoteDir: "./"
