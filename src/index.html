@@ -137,7 +137,7 @@
             email: document.getElementById("inputEmail").value
           }
         };
-        if (!Environment.isTest() && ReportService.postReport(reportToSend) === true) {
+        if (!Environment.isTest() && await ReportService.postReport(reportToSend) === true) {
           statusMessage = "Danke für deine Meldung!";
         }
         else {
