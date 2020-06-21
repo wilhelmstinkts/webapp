@@ -18,7 +18,7 @@ class LocationService {
 
             return {
                 latitude: validEntries[0].lat,
-                longitude: validEntries[0].longitude
+                longitude: validEntries[0].lon
             };
         }
         else {
