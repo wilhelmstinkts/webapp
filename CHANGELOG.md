@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.0.1] - 2020-06-21
 ### Fixed
 - Deploy to correct folder
+- Fix message format to backend
 
 ## [0.0.0] - 2020-06-21
 ### Added
