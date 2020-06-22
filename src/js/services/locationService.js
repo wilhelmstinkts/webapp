@@ -38,7 +38,7 @@ class LocationService {
                 }
                 return {
                     country: address.country,
-                    city: address.state,
+                    city: address.city,
                     zip: address.postcode,
                     street: address.road,
                     number: address.house_number
