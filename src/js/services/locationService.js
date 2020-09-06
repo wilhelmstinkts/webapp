@@ -18,7 +18,7 @@ class LocationService {
 
             return {
                 latitude: validEntries[0].lat,
-                longitude: validEntries[0].longitude
+                longitude: validEntries[0].lon
             };
         }
         else {
@@ -38,7 +38,7 @@ class LocationService {
                 }
                 return {
                     country: address.country,
-                    city: address.state,
+                    city: address.city,
                     zip: address.postcode,
                     street: address.road,
                     number: address.house_number
