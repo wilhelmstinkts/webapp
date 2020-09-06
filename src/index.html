@@ -45,8 +45,9 @@
         verwenden</button>
       <div class="formRow">
         <input type="text" id="inputStreet" style="flex:3;" name="street" placeholder="Straße" required=true
-          minlength="2" onchange="invalidateCoordinates()"/>
-        <input type="text" id="inputNumber" style="flex:1;" name="number" placeholder="Hausnummer" required=true onchange="invalidateCoordinates()"/>
+          minlength="2" onchange="invalidateCoordinates()" />
+        <input type="text" id="inputNumber" style="flex:1;" name="number" placeholder="Hausnummer" required=true
+          onchange="invalidateCoordinates()" />
         <input type="hidden" id="inputLatitude" />
         <input type="hidden" id="inputLongitude" />
       </div>
@@ -70,11 +71,11 @@
             <label for="intensity">Intensität</label>
           </div>
           <div>
-            <input id="inputStinkIntensity" type="range" min="1" max="5" name="intensity">
+            <input id="inputStinkIntensity" type="range" min="1" max="6" name="intensity">
           </div>
           <div class="intensityLabels">
-            <div>Dezent</div>
-            <div>Sehr stark</div>
+            <div>Sehr Schwach</div>
+            <div>Extrem Stark</div>
           </div>
         </div>
       </div>
@@ -109,17 +110,17 @@
     if (form.checkValidity()) {
       try {
         address = {
-            country: "Germany",
-            city: "Berlin",
-            zip: "13158",
-            street: document.getElementById("inputStreet").value,
-            number: document.getElementById("inputNumber").value
-          };
+          country: "Germany",
+          city: "Berlin",
+          zip: "13158",
+          street: document.getElementById("inputStreet").value,
+          number: document.getElementById("inputNumber").value
+        };
 
-          coordinates = {
-            latitude: document.getElementById("inputLatitude").value,
-            latitude: document.getElementById("inputLongitude").value
-          }
+        coordinates = {
+          latitude: document.getElementById("inputLatitude").value,
+          latitude: document.getElementById("inputLongitude").value
+        }
 
         if (!coordinates.latitude || !coordinates.longitude) {
           coordinates = await LocationService.getCoordinatesForAddress(address);
@@ -181,7 +182,7 @@
   }
 
   async function saveAndshowPosition(position) {
-    if (position.coords) {     
+    if (position.coords) {
       coordinates = position.coords;
       document.getElementById("positionDisplay").innerHTML = "Deine Position: <br />"
         + position.coords.latitude.toLocaleString('de-DE', { maximumFractionDigits: 5 }) + "° Breite <br />"
