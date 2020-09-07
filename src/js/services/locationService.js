@@ -34,7 +34,7 @@ class LocationService {
             if (body.address) {
                 const address = body.address;
                 if (address.postcode != "13158") {
-                    throw "Only Wilhelmsruh is supported";
+                    throw new PositionNotSupportedExceptionq();
                 }
                 return {
                     country: address.country,
