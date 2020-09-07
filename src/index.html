@@ -21,6 +21,7 @@
   <script type="text/javascript" src="js/services/reportService.js"></script>
   <script type="text/javascript" src="environment.js"></script>
   <script type="text/javascript" src="js/exceptions/addressNotFoundException.js"></script>
+  <script type="text/javascript" src="js/exceptions/positionNotSupportedException.js"></script>
 </head>
 
 <body>
@@ -189,9 +190,15 @@
         + position.coords.longitude.toLocaleString('de-DE', { maximumFractionDigits: 5 }) + "° Länge";
       document.getElementById("inputLatitude").value = coordinates.latitude;
       document.getElementById("inputLongitude").value = coordinates.longitude;
-      const address = await LocationService.getAddressForCoordinates(coordinates);
-      document.getElementById("inputStreet").value = address.street;
-      document.getElementById("inputNumber").value = address.number;
+      try {
+        const address = await LocationService.getAddressForCoordinates(coordinates);
+        document.getElementById("inputStreet").value = address.street;
+        document.getElementById("inputNumber").value = address.number;
+      } catch (error) {
+        if (error instanceof PositionNotSupportedException) {
+          statusMessage = "Es scheint, als seist du außerhalb von Wilhelmsruh. Leider ist das aktuell nicht unterstützt.";
+        }
+      }
     }
   }
 
