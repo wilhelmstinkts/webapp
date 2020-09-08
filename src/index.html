@@ -22,9 +22,11 @@
   <script type="text/javascript" src="environment.js"></script>
   <script type="text/javascript" src="js/exceptions/addressNotFoundException.js"></script>
   <script type="text/javascript" src="js/exceptions/positionNotSupportedException.js"></script>
+  <script type="text/javascript" src="js/views/mapView.js"></script>
+  <script type="text/javascript" src="js/lib/OpenLayer.js"></script>
 </head>
 
-<body>
+<body onload="MapView.drawMap('map')">
   <!--[if IE]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
   <![endif]-->
@@ -42,6 +44,7 @@
           minlength="2" autocomplete="email" />
       </div>
       <h3>Ort des Gestanks</h3>
+      <div class="formRow" id="map" style="height: 3cm;">&nbsp;</div>
       <button id="buttonPositiontoggle" name="notAdress" type="button" onclick="getLocation()">Meine Position
         verwenden</button>
       <div class="formRow">
