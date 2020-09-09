@@ -74,3 +74,9 @@ option {
 .intensityLabels :last-child {
   margin-left: auto;
 }
+
+#map {
+  height: 5cm;
+  width: 98%;
+  margin: auto;
+}
