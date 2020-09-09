@@ -173,21 +173,23 @@
   }
 
   function getLocation() {
-    var positionDisplay = document.getElementById("positionDisplay");
     document.getElementById("inputStreet").setAttribute("disabled", true);
     document.getElementById("inputNumber").setAttribute("disabled", true);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(saveAndshowPosition, showCoordinateError);
     } else {
+      var positionDisplay = document.getElementById("positionDisplay");
       positionDisplay.innerHTML = "Dein Browser unterstützt keine Ortung.";
+      positionDisplay.removeAttribute("hidden", "");
     }
-    positionDisplay.removeAttribute("hidden", "");
     document.getElementById("inputStreet").removeAttribute("disabled");
     document.getElementById("inputNumber").removeAttribute("disabled");
   }
 
   function showCoordinateError() {
-    document.getElementById("positionDisplay").innerHTML = "Ortung nicht erfolgreich. Bitte räume dieser Seite Zugriff auf deinen Standort ein oder nutze die Standortangabe als Adresse.";
+    var positionDisplay = document.getElementById("positionDisplay");
+    positionDisplay.innerHTML = "Ortung nicht erfolgreich. Bitte räume dieser Seite Zugriff auf deinen Standort ein oder nutze die Standortangabe als Adresse.";
+    positionDisplay.removeAttribute("hidden", "");
   }
 
   async function saveAndshowPosition(position) {
@@ -200,9 +202,13 @@
         const address = await LocationService.getAddressForCoordinates(coordinates);
         document.getElementById("inputStreet").value = address.street;
         document.getElementById("inputNumber").value = address.number;
+        positionDisplay.setAttribute("hidden", true);
       } catch (error) {
         if (error instanceof PositionNotSupportedException) {
           statusMessage = "Es scheint, als seist du außerhalb von Wilhelmsruh. Leider ist das aktuell nicht unterstützt.";
+          var positionDisplay = document.getElementById("positionDisplay");
+          positionDisplay.innerHTML = statusMessage;
+          positionDisplay.removeAttribute("hidden", "");
         }
       }
     }
@@ -222,6 +228,7 @@
       };
       coordinates = await LocationService.getCoordinatesForAddress(address);
       mapView.displayPosition(coordinates);
+      positionDisplay.setAttribute("hidden", true);
     }
   }
 
