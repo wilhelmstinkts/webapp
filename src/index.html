@@ -193,11 +193,7 @@
   async function saveAndshowPosition(position) {
     if (position.coords) {
       coordinates = position.coords;
-      console.log(coordinates);
       mapView.displayPosition(coordinates);
-      document.getElementById("positionDisplay").innerHTML = "Deine Position: <br />"
-        + position.coords.latitude.toLocaleString('de-DE', { maximumFractionDigits: 5 }) + "° Breite <br />"
-        + position.coords.longitude.toLocaleString('de-DE', { maximumFractionDigits: 5 }) + "° Länge";
       document.getElementById("inputLatitude").value = coordinates.latitude;
       document.getElementById("inputLongitude").value = coordinates.longitude;
       try {
@@ -225,7 +221,6 @@
         number: document.getElementById("inputNumber").value
       };
       coordinates = await LocationService.getCoordinatesForAddress(address);
-      console.log(coordinates);
       mapView.displayPosition(coordinates);
     }
   }
