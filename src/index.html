@@ -26,7 +26,7 @@
   <script type="text/javascript" src="js/lib/OpenLayer.js"></script>
 </head>
 
-<body onload="MapView.drawMap('map')">
+<body onload="initializeMap()">
   <!--[if IE]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
   <![endif]-->
@@ -105,6 +105,11 @@
 
 </body>
 <script>
+  var mapView = new MapView();
+  function initializeMap() {
+    mapView.drawMap("map");
+  }
+
   async function sendForm() {
     var form = document.getElementById("form");
     var submitStatus = document.getElementById("submitStatus");
@@ -188,6 +193,7 @@
   async function saveAndshowPosition(position) {
     if (position.coords) {
       coordinates = position.coords;
+      mapView.displayPosition(coordinates);
       document.getElementById("positionDisplay").innerHTML = "Deine Position: <br />"
         + position.coords.latitude.toLocaleString('de-DE', { maximumFractionDigits: 5 }) + "° Breite <br />"
         + position.coords.longitude.toLocaleString('de-DE', { maximumFractionDigits: 5 }) + "° Länge";
@@ -209,6 +215,7 @@
     document.getElementById("inputLatitude").value = undefined;
     document.getElementById("inputLongitude").value = undefined;
     document.getElementById("positionDisplay").setAttribute("hidden", true);
+    mapView.reset();
   }
 
   function showDiverse() {
