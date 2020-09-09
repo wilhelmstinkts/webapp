@@ -48,9 +48,9 @@
         verwenden</button>
       <div class="formRow">
         <input type="text" id="inputStreet" style="flex:3;" name="street" placeholder="Straße" required=true
-          minlength="2" onchange="invalidateCoordinates()" />
+          minlength="2" onchange="updateCoordinates()" />
         <input type="text" id="inputNumber" style="flex:1;" name="number" placeholder="Hausnummer" required=true
-          onchange="invalidateCoordinates()" />
+          onchange="updateCoordinates()" />
         <input type="hidden" id="inputLatitude" />
         <input type="hidden" id="inputLongitude" />
       </div>
@@ -193,6 +193,7 @@
   async function saveAndshowPosition(position) {
     if (position.coords) {
       coordinates = position.coords;
+      console.log(coordinates);
       mapView.displayPosition(coordinates);
       document.getElementById("positionDisplay").innerHTML = "Deine Position: <br />"
         + position.coords.latitude.toLocaleString('de-DE', { maximumFractionDigits: 5 }) + "° Breite <br />"
@@ -211,7 +212,25 @@
     }
   }
 
-  function invalidateCoordinates() {
+  async function updateCoordinates() {
+    if (!document.getElementById("inputStreet").value || !document.getElementById("inputNumber").value) {
+      resetCoordinates();
+    }
+    else {
+      var address = {
+        country: "Germany",
+        city: "Berlin",
+        zip: "13158",
+        street: document.getElementById("inputStreet").value,
+        number: document.getElementById("inputNumber").value
+      };
+      coordinates = await LocationService.getCoordinatesForAddress(address);
+      console.log(coordinates);
+      mapView.displayPosition(coordinates);
+    }
+  }
+
+  function resetCoordinates() {
     document.getElementById("inputLatitude").value = undefined;
     document.getElementById("inputLongitude").value = undefined;
     document.getElementById("positionDisplay").setAttribute("hidden", true);
