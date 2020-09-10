@@ -23,12 +23,13 @@ class MapView {
                 })
             ],
             view: this.view,
-            controls: ol.control.defaults({
-                attributionOptions: {
+            controls: [
+                new ol.control.Attribution({
                     target: document.getElementById('mapAttribution'),
                     className: 'mapAttribution'
-                }
-            })
+                }),
+                new ol.control.Zoom()
+            ]
         });
 
         this.markers = new ol.source.Vector({
