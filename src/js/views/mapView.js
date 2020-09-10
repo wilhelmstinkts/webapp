@@ -1,6 +1,7 @@
 class MapView {
     map;
-    layerMarkers;
+    markers;
+    view;
     icon;
 
     static wilhelmsruhCenter = { "latitude": 52.5880115, "longitude": 13.3622059 };
@@ -8,21 +9,28 @@ class MapView {
     static detailZoomLevel = 16;
 
     drawMap(id) {
-        map = new OpenLayers.Map(id, {
-            projection: new OpenLayers.Projection("EPSG:900913"),
-            units: 'meters'
-        });
-        map.addLayer(new OpenLayers.Layer.OSM());
-        this.jumpTo(MapView.wilhelmsruhCenter, MapView.defaultZoomLevel);
-
-        this.layerMarkers = new OpenLayers.Layer.Markers("Position", {
-            projection: new OpenLayers.Projection("EPSG:4326"),
-            visibility: true, displayInLayerSwitcher: false
+        this.view = new ol.View({
+            center: ol.proj.fromLonLat([MapView.wilhelmsruhCenter.longitude, MapView.wilhelmsruhCenter.latitude]),
+            zoom: MapView.defaultZoomLevel
         });
 
-        map.addLayer(this.layerMarkers);
-
-        this.icon = new OpenLayers.Icon("img/mapFlag.png", { "w": 20, "h": 20 }, { "x": 0, "y": 0 });
+        this.map = new ol.Map({
+            target: id,
+            units: 'meters',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })
+            ],
+            view: this.view
+        });
+        this.markers = new ol.source.Vector({
+            features: []
+        });
+        var layerMarkers = new ol.layer.Vector({
+            source: this.markers
+        });
+        this.map.addLayer(layerMarkers);
     }
 
     displayPosition(coordinates) {
@@ -31,21 +39,33 @@ class MapView {
     }
 
     jumpTo(coordinates, zoom) {
-        var x = Lon2Merc(coordinates.longitude);
-        var y = Lat2Merc(coordinates.latitude);
-        map.setCenter(new OpenLayers.LonLat(x, y), zoom);
-        return false;
+        this.markers.clear();
+        this.view.setZoom(zoom);
+        this.view.setCenter(ol.proj.fromLonLat([coordinates.longitude, coordinates.latitude]));
     }
 
     addMarker(coordinates) {
-        var ll = new OpenLayers.LonLat(Lon2Merc(coordinates.longitude), Lat2Merc(coordinates.latitude));
-        var marker = new OpenLayers.Marker(ll, this.icon);
-        this.layerMarkers.addMarker(marker);
+        var feature = new ol.Feature({
+            geometry: new ol.geom.Point(ol.proj.fromLonLat([coordinates.longitude, coordinates.latitude]))
+        });
+
+        var iconStyle = new ol.style.Style({
+            image: new ol.style.Icon({
+                anchor: [0.5, 1],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'fraction',
+                src: 'img/mapFlag.png',
+            }),
+        });
+
+        feature.setStyle(iconStyle)
+
+        this.markers.addFeatures([feature]);
     }
 
     reset() {
         this.jumpTo(MapView.wilhelmsruhCenter, MapView.defaultZoomLevel);
-        this.layerMarkers.clearMarkers();
+        this.markers.clear();
     }
 }
 
