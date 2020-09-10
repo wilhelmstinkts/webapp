@@ -86,8 +86,14 @@ option {
 }
 
 .mapAttribution {
+  padding: 5px;
   display: flex;
   flex-direction: row;
+}
+
+.mapAttribution > * {
+  padding: 0px;
+  margin: 0px;
 }
 
 .mapAttribution button {
