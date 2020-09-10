@@ -19,7 +19,9 @@ class MapView {
             units: 'meters',
             layers: [
                 new ol.layer.Tile({
-                    source: new ol.source.OSM()
+                    source: new ol.source.OSM({
+                        crossOrigin: "anonymous"
+                    })
                 })
             ],
             view: this.view,
