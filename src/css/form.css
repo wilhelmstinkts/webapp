@@ -80,3 +80,20 @@ option {
   width: calc(100% - 10px);
   margin: auto;
 }
+
+#mapAttribution {
+  font-size: smaller;
+}
+
+.mapAttribution {
+  display: flex;
+  flex-direction: row;
+}
+
+.mapAttribution button {
+  visibility: hidden;
+}
+
+.mapAttribution ul {
+  list-style-type: none;
+}

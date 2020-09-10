@@ -22,8 +22,15 @@ class MapView {
                     source: new ol.source.OSM()
                 })
             ],
-            view: this.view
+            view: this.view,
+            controls: ol.control.defaults({
+                attributionOptions: {
+                    target: document.getElementById('mapAttribution'),
+                    className: 'mapAttribution'
+                }
+            })
         });
+
         this.markers = new ol.source.Vector({
             features: []
         });
