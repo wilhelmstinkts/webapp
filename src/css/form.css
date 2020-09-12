@@ -74,3 +74,32 @@ option {
 .intensityLabels :last-child {
   margin-left: auto;
 }
+
+#map {
+  height: 5cm;
+  width: calc(100% - 10px);
+  margin: auto;
+}
+
+#mapAttribution {
+  font-size: smaller;
+}
+
+.mapAttribution {
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+}
+
+.mapAttribution > * {
+  padding: 0px;
+  margin: 0px;
+}
+
+.mapAttribution button {
+  visibility: hidden;
+}
+
+.mapAttribution ul {
+  list-style-type: none;
+}

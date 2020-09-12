@@ -5,6 +5,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+- A map to display the user's position
+
 ### Fixed
 
 - Show error message if position is outside of Wilhelmsruh
@@ -13,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 - Time property from report to be sent to the api
+
+### Removed
+
+- Text display of coordinates
 
 ## [0.0.6] - 2020-06-23
 
