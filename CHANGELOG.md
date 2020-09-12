@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Show error message if position is outside of Wilhelmsruh
+- Use stink categories and intensity scale as in SenUVK's template
+
+### Removed
+
+- Time property from report to be sent to the api
 
 ## [0.0.6] - 2020-06-23
 

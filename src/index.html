@@ -58,11 +58,12 @@
         <div style="flex: 1; display: flex; flex-direction: column;">
           <select onchange="showDiverse()" id="selectFlavor" name="kind" placeholder="Wonach riecht es?" required>
             <option value="" disabled selected hidden>Wonach riecht es?</option>
-            <option>Biomüll</option>
-            <option>Lack</option>
-            <option>Kaffee</option>
-            <option>Schokolade</option>
-            <option>Bäckerei</option>
+            <option>Abfall</option>
+            <option>Gießerei</option>
+            <option>Kakao, Kakaorösten </option>
+            <option>Kaffee, Kaffeerösten </option>
+            <option>Backwaren</option>
+            <option>Hausbrand, Holzverbrennung</option>
             <option>Sonstiges</option>
           </select>
           <input type="text" id="inputDiverse" placeholder="Bitte Geruch beschreiben" hidden />
@@ -72,11 +73,11 @@
             <label for="intensity">Intensität</label>
           </div>
           <div>
-            <input id="inputStinkIntensity" type="range" min="1" max="5" name="intensity">
+            <input id="inputStinkIntensity" type="range" min="1" max="6" name="intensity">
           </div>
           <div class="intensityLabels">
-            <div>Dezent</div>
-            <div>Sehr stark</div>
+            <div>Sehr Schwach</div>
+            <div>Extrem Stark</div>
           </div>
         </div>
       </div>
@@ -128,7 +129,6 @@
         }
 
         const reportToSend = {
-          time: new Date().toISOString(),
           location: {
             address: address,
             coordinates: coordinates
