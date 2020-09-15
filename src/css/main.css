@@ -274,22 +274,16 @@ body {
 }
 
 .footer {
-  position: relative;
-  bottom: 0;
-  flex-grow: 1;
-  display: flex;
-  align-items: flex-end;
-}
-
-.footerContent {
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 100vw;
+  max-width: 100%;
+  margin: auto;
 }
 
 .footer * {
   padding: 5px;
+  flex: 1;
 }
 
 .footer a {
