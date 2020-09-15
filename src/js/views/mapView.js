@@ -1,8 +1,8 @@
 class MapView {
 
-    static wilhelmsruhCenter = { "latitude": 52.5880115, "longitude": 13.3622059 };
-    static defaultZoomLevel = 13;
-    static detailZoomLevel = 16;
+    static wilhelmsruhCenter() { return { "latitude": 52.5880115, "longitude": 13.3622059 }; }
+    static defaultZoomLevel() { return 13; }
+    static detailZoomLevel() { return 16; }
 
     constructor(id) {
         this.drawMap(id);
@@ -17,8 +17,8 @@ class MapView {
 
     drawMap(id) {
         this.view = new ol.View({
-            center: ol.proj.fromLonLat([MapView.wilhelmsruhCenter.longitude, MapView.wilhelmsruhCenter.latitude]),
-            zoom: MapView.defaultZoomLevel
+            center: ol.proj.fromLonLat([MapView.wilhelmsruhCenter().longitude, MapView.wilhelmsruhCenter().latitude]),
+            zoom: MapView.defaultZoomLevel()
         });
 
         this.map = new ol.Map({
@@ -51,7 +51,7 @@ class MapView {
     }
 
     displayPosition(coordinates) {
-        this.jumpTo(coordinates, MapView.detailZoomLevel);
+        this.jumpTo(coordinates, MapView.detailZoomLevel());
         this.addMarker(coordinates);
     }
 
@@ -76,7 +76,7 @@ class MapView {
     }
 
     reset() {
-        this.jumpTo(MapView.wilhelmsruhCenter, MapView.defaultZoomLevel);
+        this.jumpTo(MapView.wilhelmsruhCenter(), MapView.defaultZoomLevel());
         this.markers.clear();
     }
 }
