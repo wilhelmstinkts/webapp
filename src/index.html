@@ -26,7 +26,7 @@
   <script type="text/javascript" src="js/lib/openLayer.js"></script>
 </head>
 
-<body onload="initializeMap()">
+<body>
   <!--[if IE]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
   <![endif]-->
@@ -107,10 +107,7 @@
 
 </body>
 <script>
-  var mapView = new MapView();
-  function initializeMap() {
-    mapView.drawMap("map");
-  }
+  var mapView = new MapView("map");
 
   async function sendForm() {
     var form = document.getElementById("form");

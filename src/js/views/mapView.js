@@ -1,12 +1,19 @@
 class MapView {
-    map;
-    markers;
-    view;
-    icon;
 
     static wilhelmsruhCenter = { "latitude": 52.5880115, "longitude": 13.3622059 };
     static defaultZoomLevel = 13;
     static detailZoomLevel = 16;
+
+    constructor(id) {
+        this.drawMap(id);
+
+        this.flagIcon = new ol.style.Icon({
+            anchor: [0.5, 1],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'fraction',
+            src: 'img/mapFlag.png',
+        });
+    }
 
     drawMap(id) {
         this.view = new ol.View({
@@ -60,12 +67,7 @@ class MapView {
         });
 
         var iconStyle = new ol.style.Style({
-            image: new ol.style.Icon({
-                anchor: [0.5, 1],
-                anchorXUnits: 'fraction',
-                anchorYUnits: 'fraction',
-                src: 'img/mapFlag.png',
-            }),
+            image: this.flagIcon
         });
 
         feature.setStyle(iconStyle)
@@ -77,14 +79,4 @@ class MapView {
         this.jumpTo(MapView.wilhelmsruhCenter, MapView.defaultZoomLevel);
         this.markers.clear();
     }
-}
-
-function Lon2Merc(lon) {
-    return 20037508.34 * lon / 180;
-}
-
-function Lat2Merc(lat) {
-    var PI = 3.14159265358979323846;
-    lat = Math.log(Math.tan((90 + lat) * PI / 360)) / (PI / 180);
-    return 20037508.34 * lat / 180;
 }
