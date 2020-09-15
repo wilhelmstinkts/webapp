@@ -30,79 +30,76 @@
   <!--[if IE]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
   <![endif]-->
-  <div id="root">
-    <form id="form" autocomplete="on" onsubmit="return false">
-      <h3>Deine Kontaktdaten</h3>
-      <div class="formRow">
-        <input type="text" style="flex:1;" id="inputGivenName" name="fname" placeholder="Vorname" required=true
-          minlength="2" autocomplete="given-name" />
-        <input type="text" style="flex:2;" id="inputSurname" name="lname" placeholder="Nachname" required=true
-          minlength="2" autocomplete="family-name" />
-      </div>
-      <div class="formRow">
-        <input type="email" id="inputEmail" style="width: 100%;" name="email" placeholder="E-Mailadresse" required=true
-          minlength="2" autocomplete="email" />
-      </div>
-      <h3>Ort des Gestanks</h3>
-      <button id="buttonPositiontoggle" name="notAdress" type="button" onclick="getLocation()">Meine Position
-        verwenden</button>
-      <div class="formRow">
-        <input type="text" id="inputStreet" style="flex:3;" name="street" placeholder="Straße" required=true
-          minlength="2" onchange="updateCoordinates()" />
-        <input type="text" id="inputNumber" style="flex:1;" name="number" placeholder="Hausnummer" required=true
-          onchange="updateCoordinates()" />
-        <input type="hidden" id="inputLatitude" />
-        <input type="hidden" id="inputLongitude" />
-      </div>
-      <p id="positionDisplay" hidden></p>
-      <div id="map"></div>
-      <div class="formRow" id="mapAttribution"></div>
-      <h3>Beschreibung des Gestanks</h3>
-      <div class="formRow">
-        <div style="flex: 1; display: flex; flex-direction: column;">
-          <select onchange="showDiverse()" id="selectFlavor" name="kind" placeholder="Wonach riecht es?" required>
-            <option value="" disabled selected hidden>Wonach riecht es?</option>
-            <option>Abfall</option>
-            <option>Gießerei</option>
-            <option>Kakao, Kakaorösten </option>
-            <option>Kaffee, Kaffeerösten </option>
-            <option>Backwaren</option>
-            <option>Hausbrand, Holzverbrennung</option>
-            <option>Sonstiges</option>
-          </select>
-          <input type="text" id="inputDiverse" placeholder="Bitte Geruch beschreiben" hidden />
-        </div>
-        <div class="intensityWrapper">
-          <div>
-            <label for="intensity">Intensität</label>
-          </div>
-          <div>
-            <input id="inputStinkIntensity" type="range" min="1" max="6" name="intensity">
-          </div>
-          <div class="intensityLabels">
-            <div>Sehr Schwach</div>
-            <div>Extrem Stark</div>
-          </div>
-        </div>
-      </div>
-      <hr />
-      <div class="formRow">
-        <input type="checkbox" style="flex: 1;" name="checkConsent" required=true> <label style="flex: 20;"
-          for="checkConsent"> Ich bin damit einverstanden,
-          dass meine eingegebenen Daten an die Senatsverwaltung für Umwelt, Verkehr und Klimaschutz gesendet werden
-          sowie
-          meine Eingaben anonymisiert von dieser Website gespeichert werden.</label>
-      </div>
-      <button type="submit" onclick="sendForm()">Senden</button>
-      <p id="submitStatus" hidden></p>
-    </form>
-    <div class="footer">
-      <img src="img/logo_long.svg" title="Wilhelm gibt keine Ruh." alt="Logo - Wilhelm gibt keine Ruh" />
-      <p>Die Seite hat einen Fehler? Bitte <a href="mailto:philippjust+y4raqhvaabpkvj1d0nkc@boards.trello.com">hier</a>
-        melden. Danke!</p>
+  <form id="form" autocomplete="on" onsubmit="return false">
+    <h3>Deine Kontaktdaten</h3>
+    <div class="formRow">
+      <input type="text" style="flex:1;" id="inputGivenName" name="fname" placeholder="Vorname" required=true
+        minlength="2" autocomplete="given-name" />
+      <input type="text" style="flex:2;" id="inputSurname" name="lname" placeholder="Nachname" required=true
+        minlength="2" autocomplete="family-name" />
     </div>
+    <div class="formRow">
+      <input type="email" id="inputEmail" style="width: 100%;" name="email" placeholder="E-Mailadresse" required=true
+        minlength="2" autocomplete="email" />
+    </div>
+    <h3>Ort des Gestanks</h3>
+    <button id="buttonPositiontoggle" name="notAdress" type="button" onclick="getLocation()">Meine Position
+      verwenden</button>
+    <div class="formRow">
+      <input type="text" id="inputStreet" style="flex:3;" name="street" placeholder="Straße" required=true minlength="2"
+        onchange="updateCoordinates()" />
+      <input type="text" id="inputNumber" style="flex:1;" name="number" placeholder="Hausnummer" required=true
+        onchange="updateCoordinates()" />
+      <input type="hidden" id="inputLatitude" />
+      <input type="hidden" id="inputLongitude" />
+    </div>
+    <p id="positionDisplay" hidden></p>
+    <div id="map"></div>
+    <div class="formRow" id="mapAttribution"></div>
+    <h3>Beschreibung des Gestanks</h3>
+    <div class="formRow">
+      <div style="flex: 1; display: flex; flex-direction: column;">
+        <select onchange="showDiverse()" id="selectFlavor" name="kind" placeholder="Wonach riecht es?" required>
+          <option value="" disabled selected hidden>Wonach riecht es?</option>
+          <option>Abfall</option>
+          <option>Gießerei</option>
+          <option>Kakao, Kakaorösten </option>
+          <option>Kaffee, Kaffeerösten </option>
+          <option>Backwaren</option>
+          <option>Hausbrand, Holzverbrennung</option>
+          <option>Sonstiges</option>
+        </select>
+        <input type="text" id="inputDiverse" placeholder="Bitte Geruch beschreiben" hidden />
+      </div>
+      <div class="intensityWrapper">
+        <div>
+          <label for="intensity">Intensität</label>
+        </div>
+        <div>
+          <input id="inputStinkIntensity" type="range" min="1" max="6" name="intensity">
+        </div>
+        <div class="intensityLabels">
+          <div>Sehr Schwach</div>
+          <div>Extrem Stark</div>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div class="formRow">
+      <input type="checkbox" style="flex: 1;" name="checkConsent" required=true> <label style="flex: 20;"
+        for="checkConsent"> Ich bin damit einverstanden,
+        dass meine eingegebenen Daten an die Senatsverwaltung für Umwelt, Verkehr und Klimaschutz gesendet werden
+        sowie
+        meine Eingaben anonymisiert von dieser Website gespeichert werden.</label>
+    </div>
+    <button type="submit" onclick="sendForm()">Senden</button>
+    <p id="submitStatus" hidden></p>
+  </form>
+  <div class="footer">
+    <img src="img/logo_long.svg" title="Wilhelm gibt keine Ruh." alt="Logo - Wilhelm gibt keine Ruh" />
+    <p>Die Seite hat einen Fehler? Bitte <a href="mailto:philippjust+y4raqhvaabpkvj1d0nkc@boards.trello.com">hier</a>
+      melden. Danke!</p>
   </div>
-
 </body>
 <script>
   var mapView = new MapView("map");

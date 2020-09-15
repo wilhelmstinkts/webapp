@@ -267,17 +267,12 @@ body {
   background-color: cadetblue;
   font-family: "Source Sans Pro";
 }
-#root {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
 
 .footer {
   display: flex;
   flex-direction: row;
   align-items: center;
-  max-width: 100%;
+  max-width: 15cm;
   margin: auto;
 }
 
