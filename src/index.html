@@ -33,22 +33,22 @@
   <form id="form" autocomplete="on" onsubmit="return false">
     <h3>Deine Kontaktdaten</h3>
     <div class="formRow">
-      <input type="text" style="flex:1;" id="inputGivenName" name="fname" placeholder="Vorname" required=true
-        minlength="2" autocomplete="given-name" />
-      <input type="text" style="flex:2;" id="inputSurname" name="lname" placeholder="Nachname" required=true
-        minlength="2" autocomplete="family-name" />
+      <input type="text" style="flex:1;" id="inputGivenName" name="fname" placeholder="Vorname" required minlength="2"
+        autocomplete="given-name" />
+      <input type="text" style="flex:2;" id="inputSurname" name="lname" placeholder="Nachname" required minlength="2"
+        autocomplete="family-name" />
     </div>
     <div class="formRow">
-      <input type="email" id="inputEmail" style="width: 100%;" name="email" placeholder="E-Mailadresse" required=true
+      <input type="email" id="inputEmail" style="width: 100%;" name="email" placeholder="E-Mailadresse" required
         minlength="2" autocomplete="email" />
     </div>
     <h3>Ort des Gestanks</h3>
     <button id="buttonPositiontoggle" name="notAdress" type="button" onclick="getLocation()">Meine Position
       verwenden</button>
     <div class="formRow">
-      <input type="text" id="inputStreet" style="flex:3;" name="street" placeholder="Straße" required=true minlength="2"
+      <input type="text" id="inputStreet" style="flex:3;" name="street" placeholder="Straße" required minlength="2"
         onchange="updateCoordinates()" />
-      <input type="text" id="inputNumber" style="flex:1;" name="number" placeholder="Hausnummer" required=true
+      <input type="text" id="inputNumber" style="flex:1;" name="number" placeholder="Hausnummer" required
         onchange="updateCoordinates()" />
       <input type="hidden" id="inputLatitude" />
       <input type="hidden" id="inputLongitude" />
@@ -86,8 +86,8 @@
     </div>
     <hr />
     <div class="formRow">
-      <input type="checkbox" style="flex: 1;" name="checkConsent" required=true> <label style="flex: 20;"
-        for="checkConsent"> Ich bin damit einverstanden,
+      <input type="checkbox" style="flex: 1;" name="checkConsent" required> <label style="flex: 20;" for="checkConsent">
+        Ich bin damit einverstanden,
         dass meine eingegebenen Daten an die Senatsverwaltung für Umwelt, Verkehr und Klimaschutz gesendet werden
         sowie
         meine Eingaben anonymisiert von dieser Website gespeichert werden.</label>
