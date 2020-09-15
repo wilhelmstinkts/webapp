@@ -8,11 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - A map to display the user's position
+- Validation of html5-conformance
 
 ### Fixed
 
 - Show error message if position is outside of Wilhelmsruh
 - Use stink categories and intensity scale as in SenUVK's template
+- HTML5-conformance
 
 ### Removed
 
