@@ -30,8 +30,8 @@ def set_text_input(input_placeholder, text, config)
   matching_input.exists? && matching_input.set(text)
 end
 
-def set_selector(input_placeholder, option, config)
-  matching_input = config.browser.select placeholder: input_placeholder
+def set_selector(id, option, config)
+  matching_input = config.browser.select id: id
   matching_input.exists? && matching_input.select(option)
 end
 
@@ -50,7 +50,7 @@ When('I open the main page') do
 end
 
 When('I agree to terms and conditions') do
-  checkbox = browser.checkbox(name: 'checkConsent')
+  checkbox = browser.checkbox(id: 'checkConsent')
   checkbox.set
 end
 
