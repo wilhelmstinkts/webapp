@@ -1,7 +1,6 @@
 #form {
   background-color: rgba(255, 255, 255, 0.5);
-  display: flex;
-  flex-direction: column;
+  display: block;
   max-width: 15cm;
   margin: auto;
   padding: 5px;
