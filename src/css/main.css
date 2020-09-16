@@ -264,32 +264,21 @@ textarea {
 }
 
 body {
-  background-color: cadetblue;
+  background-color: #cccccc;
   font-family: "Source Sans Pro";
-}
-#root {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
 .footer {
-  position: relative;
-  bottom: 0;
-  flex-grow: 1;
-  display: flex;
-  align-items: flex-end;
-}
-
-.footerContent {
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 100vw;
+  max-width: 15cm;
+  margin: auto;
 }
 
 .footer * {
   padding: 5px;
+  flex: 1;
 }
 
 .footer a {

@@ -3,6 +3,17 @@ name: Code Quality Assurance
 on: [push]
 
 jobs:
+  html5-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout head
+        uses: actions/checkout@v2
+      - name: HTML5 Validator
+        uses: Cyb3r-Jak3/html5validator-action@v0.4.2
+        with:
+          root: ./src
+          css: true
+
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -21,7 +32,7 @@ jobs:
       - name: Install ruby
         uses: actions/setup-ruby@v1
         with:
-          ruby-version: '2.6' 
+          ruby-version: "2.6"
       - name: Install requirements
         working-directory: ./cucumber
         run: |

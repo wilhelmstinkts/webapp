@@ -17,8 +17,8 @@ class LocationService {
             }
 
             return {
-                latitude: validEntries[0].lat,
-                longitude: validEntries[0].lon
+                latitude: parseFloat(validEntries[0].lat),
+                longitude: parseFloat(validEntries[0].lon)
             };
         }
         else {
@@ -34,7 +34,7 @@ class LocationService {
             if (body.address) {
                 const address = body.address;
                 if (address.postcode != "13158") {
-                    throw "Only Wilhelmsruh is supported";
+                    throw new PositionNotSupportedExceptionq();
                 }
                 return {
                     country: address.country,
