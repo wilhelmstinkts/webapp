@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title>Frischluftheld:in</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -33,22 +33,22 @@
   <form id="form" autocomplete="on" onsubmit="return false">
     <h3>Deine Kontaktdaten</h3>
     <div class="formRow">
-      <input type="text" style="flex:1;" id="inputGivenName" name="fname" placeholder="Vorname" required=true
-        minlength="2" autocomplete="given-name" />
-      <input type="text" style="flex:2;" id="inputSurname" name="lname" placeholder="Nachname" required=true
-        minlength="2" autocomplete="family-name" />
+      <input type="text" style="flex:1;" id="inputGivenName" name="fname" placeholder="Vorname" required minlength="2"
+        autocomplete="given-name" />
+      <input type="text" style="flex:2;" id="inputSurname" name="lname" placeholder="Nachname" required minlength="2"
+        autocomplete="family-name" />
     </div>
     <div class="formRow">
-      <input type="email" id="inputEmail" style="width: 100%;" name="email" placeholder="E-Mailadresse" required=true
+      <input type="email" id="inputEmail" style="width: 100%;" name="email" placeholder="E-Mailadresse" required
         minlength="2" autocomplete="email" />
     </div>
     <h3>Ort des Gestanks</h3>
     <button id="buttonPositiontoggle" name="notAdress" type="button" onclick="getLocation()">Meine Position
       verwenden</button>
     <div class="formRow">
-      <input type="text" id="inputStreet" style="flex:3;" name="street" placeholder="Straße" required=true minlength="2"
+      <input type="text" id="inputStreet" style="flex:3;" name="street" placeholder="Straße" required minlength="2"
         onchange="updateCoordinates()" />
-      <input type="text" id="inputNumber" style="flex:1;" name="number" placeholder="Hausnummer" required=true
+      <input type="text" id="inputNumber" style="flex:1;" name="number" placeholder="Hausnummer" required
         onchange="updateCoordinates()" />
       <input type="hidden" id="inputLatitude" />
       <input type="hidden" id="inputLongitude" />
@@ -59,8 +59,8 @@
     <h3>Beschreibung des Gestanks</h3>
     <div class="formRow">
       <div style="flex: 1; display: flex; flex-direction: column;">
-        <select onchange="showDiverse()" id="selectFlavor" name="kind" placeholder="Wonach riecht es?" required>
-          <option value="" disabled selected hidden>Wonach riecht es?</option>
+        <select onchange="showDiverse()" id="selectFlavor" name="kind" required>
+          <option value="" disabled selected>Wonach riecht es?</option>
           <option>Abfall</option>
           <option>Gießerei</option>
           <option>Kakao, Kakaorösten </option>
@@ -73,10 +73,10 @@
       </div>
       <div class="intensityWrapper">
         <div>
-          <label for="intensity">Intensität</label>
+          <label for="inputStinkIntensity">Intensität</label>
         </div>
         <div>
-          <input id="inputStinkIntensity" type="range" min="1" max="6" name="intensity">
+          <input id="inputStinkIntensity" type="range" min="1" max="6">
         </div>
         <div class="intensityLabels">
           <div>Sehr Schwach</div>
@@ -86,8 +86,8 @@
     </div>
     <hr />
     <div class="formRow">
-      <input type="checkbox" style="flex: 1;" name="checkConsent" required=true> <label style="flex: 20;"
-        for="checkConsent"> Ich bin damit einverstanden,
+      <input type="checkbox" style="flex: 1;" id="checkConsent" required> <label style="flex: 20;" for="checkConsent">
+        Ich bin damit einverstanden,
         dass meine eingegebenen Daten an die Senatsverwaltung für Umwelt, Verkehr und Klimaschutz gesendet werden
         sowie
         meine Eingaben anonymisiert von dieser Website gespeichert werden.</label>
@@ -100,152 +100,152 @@
     <p>Die Seite hat einen Fehler? Bitte <a href="mailto:philippjust+y4raqhvaabpkvj1d0nkc@boards.trello.com">hier</a>
       melden. Danke!</p>
   </div>
-</body>
-<script>
-  var mapView = new MapView("map");
 
-  async function sendForm() {
-    var form = document.getElementById("form");
-    var submitStatus = document.getElementById("submitStatus");
-    submitStatus.removeAttribute("hidden", "");
-    var statusMessage = "";
+  <script>
+    var mapView = new MapView("map");
 
-    if (form.checkValidity()) {
-      try {
-        address = {
+    async function sendForm() {
+      var form = document.getElementById("form");
+      var submitStatus = document.getElementById("submitStatus");
+      submitStatus.removeAttribute("hidden", "");
+      var statusMessage = "";
+
+      if (form.checkValidity()) {
+        try {
+          address = {
+            country: "Germany",
+            city: "Berlin",
+            zip: "13158",
+            street: document.getElementById("inputStreet").value,
+            number: document.getElementById("inputNumber").value
+          };
+
+          coordinates = {
+            latitude: document.getElementById("inputLatitude").value,
+            latitude: document.getElementById("inputLongitude").value
+          }
+
+          if (!coordinates.latitude || !coordinates.longitude) {
+            coordinates = await LocationService.getCoordinatesForAddress(address);
+          }
+
+          const reportToSend = {
+            location: {
+              address: address,
+              coordinates: coordinates
+            },
+            stink: {
+              kind: document.getElementById("selectFlavor").value === "Sonstiges" ? document.getElementById("inputDiverse").value : document.getElementById("selectFlavor").value,
+              intensity: document.getElementById("inputStinkIntensity").value
+            },
+            reporter: {
+              name: `${document.getElementById("inputGivenName").value} ${document.getElementById("inputSurname").value}`,
+              email: document.getElementById("inputEmail").value
+            }
+          };
+          if (!Environment.isTest() && await ReportService.postReport(reportToSend) === true) {
+            statusMessage = "Danke für deine Meldung!";
+          }
+          else {
+            statusMessage = "Server nicht erreichbar. Bitte versuch es später noch einmal.";
+          }
+        }
+        catch (error) {
+          if (error instanceof AddressNotFoundException) {
+            statusMessage = "Wir konnten diese Adresse nicht in Wilhelmsruh finden. Bitte prüfe deine Eingabe oder nutze die Standortbestimmung.";
+          }
+          else {
+            statusMessage = `Unerwarteter Fehler: ${error}`;
+          }
+        }
+      }
+      else {
+        statusMessage = "Bitte prüfe deine Angaben.";
+      }
+      submitStatus.innerText = statusMessage;
+    }
+
+    function getLocation() {
+      document.getElementById("inputStreet").setAttribute("disabled", true);
+      document.getElementById("inputNumber").setAttribute("disabled", true);
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(saveAndshowPosition, showCoordinateError);
+      } else {
+        var positionDisplay = document.getElementById("positionDisplay");
+        positionDisplay.innerHTML = "Dein Browser unterstützt keine Ortung.";
+        positionDisplay.removeAttribute("hidden", "");
+      }
+      document.getElementById("inputStreet").removeAttribute("disabled");
+      document.getElementById("inputNumber").removeAttribute("disabled");
+    }
+
+    function showCoordinateError() {
+      var positionDisplay = document.getElementById("positionDisplay");
+      positionDisplay.innerHTML = "Ortung nicht erfolgreich. Bitte räume dieser Seite Zugriff auf deinen Standort ein oder nutze die Standortangabe als Adresse.";
+      positionDisplay.removeAttribute("hidden", "");
+    }
+
+    async function saveAndshowPosition(position) {
+      if (position.coords) {
+        coordinates = position.coords;
+        mapView.displayPosition(coordinates);
+        document.getElementById("inputLatitude").value = coordinates.latitude;
+        document.getElementById("inputLongitude").value = coordinates.longitude;
+        try {
+          const address = await LocationService.getAddressForCoordinates(coordinates);
+          document.getElementById("inputStreet").value = address.street;
+          document.getElementById("inputNumber").value = address.number;
+          positionDisplay.setAttribute("hidden", true);
+        } catch (error) {
+          if (error instanceof PositionNotSupportedException) {
+            statusMessage = "Es scheint, als seist du außerhalb von Wilhelmsruh. Leider ist das aktuell nicht unterstützt.";
+            var positionDisplay = document.getElementById("positionDisplay");
+            positionDisplay.innerHTML = statusMessage;
+            positionDisplay.removeAttribute("hidden", "");
+          }
+        }
+      }
+    }
+
+    async function updateCoordinates() {
+      if (!document.getElementById("inputStreet").value || !document.getElementById("inputNumber").value) {
+        resetCoordinates();
+      }
+      else {
+        var address = {
           country: "Germany",
           city: "Berlin",
           zip: "13158",
           street: document.getElementById("inputStreet").value,
           number: document.getElementById("inputNumber").value
         };
-
-        coordinates = {
-          latitude: document.getElementById("inputLatitude").value,
-          latitude: document.getElementById("inputLongitude").value
-        }
-
-        if (!coordinates.latitude || !coordinates.longitude) {
-          coordinates = await LocationService.getCoordinatesForAddress(address);
-        }
-
-        const reportToSend = {
-          location: {
-            address: address,
-            coordinates: coordinates
-          },
-          stink: {
-            kind: document.getElementById("selectFlavor").value === "Sonstiges" ? document.getElementById("inputDiverse").value : document.getElementById("selectFlavor").value,
-            intensity: document.getElementById("inputStinkIntensity").value
-          },
-          reporter: {
-            name: `${document.getElementById("inputGivenName").value} ${document.getElementById("inputSurname").value}`,
-            email: document.getElementById("inputEmail").value
-          }
-        };
-        if (!Environment.isTest() && await ReportService.postReport(reportToSend) === true) {
-          statusMessage = "Danke für deine Meldung!";
-        }
-        else {
-          statusMessage = "Server nicht erreichbar. Bitte versuch es später noch einmal.";
-        }
-      }
-      catch (error) {
-        if (error instanceof AddressNotFoundException) {
-          statusMessage = "Wir konnten diese Adresse nicht in Wilhelmsruh finden. Bitte prüfe deine Eingabe oder nutze die Standortbestimmung.";
-        }
-        else {
-          statusMessage = `Unerwarteter Fehler: ${error}`;
-        }
-      }
-    }
-    else {
-      statusMessage = "Bitte prüfe deine Angaben.";
-    }
-    submitStatus.innerText = statusMessage;
-  }
-
-  function getLocation() {
-    document.getElementById("inputStreet").setAttribute("disabled", true);
-    document.getElementById("inputNumber").setAttribute("disabled", true);
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(saveAndshowPosition, showCoordinateError);
-    } else {
-      var positionDisplay = document.getElementById("positionDisplay");
-      positionDisplay.innerHTML = "Dein Browser unterstützt keine Ortung.";
-      positionDisplay.removeAttribute("hidden", "");
-    }
-    document.getElementById("inputStreet").removeAttribute("disabled");
-    document.getElementById("inputNumber").removeAttribute("disabled");
-  }
-
-  function showCoordinateError() {
-    var positionDisplay = document.getElementById("positionDisplay");
-    positionDisplay.innerHTML = "Ortung nicht erfolgreich. Bitte räume dieser Seite Zugriff auf deinen Standort ein oder nutze die Standortangabe als Adresse.";
-    positionDisplay.removeAttribute("hidden", "");
-  }
-
-  async function saveAndshowPosition(position) {
-    if (position.coords) {
-      coordinates = position.coords;
-      mapView.displayPosition(coordinates);
-      document.getElementById("inputLatitude").value = coordinates.latitude;
-      document.getElementById("inputLongitude").value = coordinates.longitude;
-      try {
-        const address = await LocationService.getAddressForCoordinates(coordinates);
-        document.getElementById("inputStreet").value = address.street;
-        document.getElementById("inputNumber").value = address.number;
+        coordinates = await LocationService.getCoordinatesForAddress(address);
+        mapView.displayPosition(coordinates);
         positionDisplay.setAttribute("hidden", true);
-      } catch (error) {
-        if (error instanceof PositionNotSupportedException) {
-          statusMessage = "Es scheint, als seist du außerhalb von Wilhelmsruh. Leider ist das aktuell nicht unterstützt.";
-          var positionDisplay = document.getElementById("positionDisplay");
-          positionDisplay.innerHTML = statusMessage;
-          positionDisplay.removeAttribute("hidden", "");
-        }
       }
     }
-  }
 
-  async function updateCoordinates() {
-    if (!document.getElementById("inputStreet").value || !document.getElementById("inputNumber").value) {
-      resetCoordinates();
-    }
-    else {
-      var address = {
-        country: "Germany",
-        city: "Berlin",
-        zip: "13158",
-        street: document.getElementById("inputStreet").value,
-        number: document.getElementById("inputNumber").value
-      };
-      coordinates = await LocationService.getCoordinatesForAddress(address);
-      mapView.displayPosition(coordinates);
-      positionDisplay.setAttribute("hidden", true);
-    }
-  }
-
-  function resetCoordinates() {
-    document.getElementById("inputLatitude").value = undefined;
-    document.getElementById("inputLongitude").value = undefined;
-    document.getElementById("positionDisplay").setAttribute("hidden", true);
-    mapView.reset();
-  }
-
-  function showDiverse() {
-    var inputDiverse = document.getElementById("inputDiverse");
-    var selection = document.getElementById("selectFlavor").value;
-    if (selection == "Sonstiges") {
-      inputDiverse.removeAttribute("hidden");
-      inputDiverse.setAttribute("required", "");
-    }
-    else {
-      inputDiverse.removeAttribute("required");
-      inputDiverse.setAttribute("hidden", "");
+    function resetCoordinates() {
+      document.getElementById("inputLatitude").value = undefined;
+      document.getElementById("inputLongitude").value = undefined;
+      document.getElementById("positionDisplay").setAttribute("hidden", true);
+      mapView.reset();
     }
 
-  }
-</script>
+    function showDiverse() {
+      var inputDiverse = document.getElementById("inputDiverse");
+      var selection = document.getElementById("selectFlavor").value;
+      if (selection == "Sonstiges") {
+        inputDiverse.removeAttribute("hidden");
+        inputDiverse.setAttribute("required", "");
+      }
+      else {
+        inputDiverse.removeAttribute("required");
+        inputDiverse.setAttribute("hidden", "");
+      }
 
+    }
+  </script>
+</body>
 
 </html>
