@@ -264,8 +264,13 @@ textarea {
 }
 
 body {
-  background-color: cadetblue;
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 0, 0.8)
+  );
   font-family: "Source Sans Pro";
+  height: 100%;
 }
 
 .footer {
