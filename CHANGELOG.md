@@ -5,6 +5,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.0.1] - 2020-09-24
+
+### Fixed
+
+- Updated the url of the report service
+
+## [1.0.0] - 2020-09-16
+
 ### Added
 
 - A map to display the user's position
@@ -16,10 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use stink categories and intensity scale as in SenUVK's template
 - UI bugs for safari
 - HTML5-conformance
-
-### Removed
-
-- Time property from report to be sent to the api
 
 ### Removed
 
