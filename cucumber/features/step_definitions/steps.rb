@@ -66,3 +66,8 @@ Then('I click {string}') do |button_text|
   button = browser.button(text: button_text)
   button.click
 end
+
+Then('I close the overlay') do
+  overlay = browser.div(id: overlay)
+  overlay.click
+end
