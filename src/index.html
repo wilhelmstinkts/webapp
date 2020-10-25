@@ -30,6 +30,9 @@
   <!--[if IE]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
   <![endif]-->
+  <div id="overlay" onclick="hideOverlay()">
+    <p id="submitStatus"></p>
+  </div>
   <form id="form" autocomplete="on" onsubmit="return false">
     <h3>Deine Kontaktdaten</h3>
     <div class="formRow">
@@ -93,7 +96,6 @@
         meine Eingaben anonymisiert von dieser Website gespeichert werden.</label>
     </div>
     <button type="submit" onclick="sendForm()">Senden</button>
-    <p id="submitStatus" hidden></p>
   </form>
   <div class="footer">
     <img src="img/logo_long.svg" title="Wilhelm gibt keine Ruh." alt="Logo - Wilhelm gibt keine Ruh" />
@@ -107,7 +109,7 @@
     async function sendForm() {
       var form = document.getElementById("form");
       var submitStatus = document.getElementById("submitStatus");
-      submitStatus.removeAttribute("hidden", "");
+      showOverlay();
       var statusMessage = "";
 
       if (form.checkValidity()) {
@@ -244,6 +246,14 @@
         inputDiverse.setAttribute("hidden", "");
       }
 
+    }
+
+    function showOverlay() {
+      document.getElementById("overlay").style.display = "flex";
+    }
+
+    function hideOverlay() {
+      document.getElementById("overlay").style.display = "none";
     }
   </script>
 </body>
