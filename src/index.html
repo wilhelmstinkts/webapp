@@ -147,6 +147,7 @@
           };
           if (!Environment.isTest() && await ReportService.postReport(reportToSend) === true) {
             statusMessage = "Danke für deine Meldung!";
+            resetStink();
           }
           else {
             statusMessage = "Server nicht erreichbar. Bitte versuch es später noch einmal.";
@@ -254,6 +255,11 @@
 
     function hideOverlay() {
       document.getElementById("overlay").style.display = "none";
+    }
+
+    function resetStink() {
+      document.getElementById("selectFlavor").options.selectedIndex = 0;
+      document.getElementById("inputStinkIntensity").value = 3;
     }
   </script>
 </body>
