@@ -5,6 +5,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+- Status messages are shown in overlay
+- Stink information is reset on successfully sent report
+
 ## [1.0.1] - 2020-09-24
 
 ### Fixed
