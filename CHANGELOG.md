@@ -5,6 +5,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Fixed
+
+- Do not require address if coordinates are given
+
 ### Added
 
 - Status messages are shown in overlay
@@ -13,7 +17,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Use support@frischluft.wilhelm-gibt-keine-ruh.de as support email
-
 
 ## [1.0.1] - 2020-09-24
 

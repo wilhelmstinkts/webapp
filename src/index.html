@@ -207,6 +207,8 @@
             positionDisplay.removeAttribute("hidden", "");
           }
         }
+        document.getElementById("inputStreet").removeAttribute("required");
+        document.getElementById("inputNumber").removeAttribute("required");
       }
     }
 
@@ -231,6 +233,8 @@
     function resetCoordinates() {
       document.getElementById("inputLatitude").value = undefined;
       document.getElementById("inputLongitude").value = undefined;
+      document.getElementById("inputStreet").setAttribute("required", true);
+      document.getElementById("inputNumber").setAttribute("required", true);
       document.getElementById("positionDisplay").setAttribute("hidden", true);
       mapView.reset();
     }
