@@ -56,6 +56,12 @@
       <input type="hidden" id="inputLatitude" />
       <input type="hidden" id="inputLongitude" />
     </div>
+    <div class="formRow">
+      <input type="checkbox" id="checkIsHome" style="flex:1;" name="isHome" />
+      <label style="flex: 20;" for="checkIsHome">
+        Die angegebene Adresse ist meine Wohnanschrift.
+      </label>
+    </div>
     <p id="positionDisplay" hidden></p>
     <div id="map"></div>
     <div class="formRow" id="mapAttribution"></div>
@@ -134,7 +140,8 @@
           const reportToSend = {
             location: {
               address: address,
-              coordinates: coordinates
+              coordinates: coordinates,
+              isHome: document.getElementById("checkIsHome").checked
             },
             stink: {
               kind: document.getElementById("selectFlavor").value === "Sonstiges" ? document.getElementById("inputDiverse").value : document.getElementById("selectFlavor").value,
