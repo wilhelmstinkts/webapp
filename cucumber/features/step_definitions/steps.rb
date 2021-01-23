@@ -71,3 +71,8 @@ Then('I close the overlay') do
   overlay = browser.div(id: 'overlay')
   overlay.click
 end
+
+Then('I select the radio button {string}') do |label_text|
+  radio = browser.radio(label: label_text)
+  radio.set
+end

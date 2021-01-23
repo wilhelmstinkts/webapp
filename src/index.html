@@ -94,7 +94,21 @@
       </div>
     </div>
     <hr />
-    <div>
+    <h3>Zeit des Gestanks</h3>
+    <fieldset>
+      <div class="formRow">
+        <div style="flex: 13em;">
+          <input type="radio" id="radioReportNow" name="reportTime" value="now" checked="checked"
+            onclick="togglePastInput(this)">
+          <label for="radioReportNow">Es stinkt gerade</label>
+        </div>
+        <div style="flex: 13em;">
+          <input type="radio" id="radioReportPast" name="reportTime" value="past" onclick="togglePastInput(this)">
+          <label for="radioReportPast">Der Gestank ist vorbei</label>
+        </div>
+      </div>
+    </fieldset>
+    <div id="pastTimeInput" hidden>
       <div class="formRow">
         <label style="flex: 9em;" for="inputDate">Tag des Gestanks:</label>
         <input style="flex: 7em;" id="inputDate" type="date" />
@@ -271,7 +285,6 @@
         inputDiverse.removeAttribute("required");
         inputDiverse.setAttribute("hidden", "");
       }
-
     }
 
     function showOverlay() {
@@ -298,6 +311,22 @@
       document.getElementById("inputDate").value = todayString;
       document.getElementById("inputEndTime").value = nowTimeString;
       document.getElementById("inputStartTime").value = hourAgoTimeString;
+    }
+
+    function togglePastInput(radioButton) {
+      var pastInputBox = document.getElementById("pastTimeInput");
+      var inputChildren = pastInputBox.getElementsByTagName("input");
+      if (radioButton.value === "now") {
+        pastInputBox.setAttribute("hidden", "");
+        for (let index = 0; index < inputChildren.length; index++) {
+          inputChildren[index].removeAttribute("required");
+        }
+      } else {
+        pastInputBox.removeAttribute("hidden");
+        for (let index = 0; index < inputChildren.length; index++) {
+          inputChildren[index].setAttribute("required", "");
+        }
+      }
     }
   </script>
 </body>

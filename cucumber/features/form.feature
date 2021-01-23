@@ -93,3 +93,10 @@ Feature: Form
       | Tomatensalat             |
     When I click "Senden"
     Then I should see "Server nicht erreichbar. Bitte versuch es später noch einmal."
+
+  Scenario: Toggle Past Time
+    When I open the main page
+    And I select the radio button "Der Gestank ist vorbei"
+    Then I should see "Tag des Gestanks"
+    And I should see "Start des Gestanks"
+    And I should see "Ende des Gestanks"
