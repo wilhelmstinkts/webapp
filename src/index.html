@@ -26,7 +26,7 @@
   <script type="text/javascript" src="js/lib/openLayer.js"></script>
 </head>
 
-<body>
+<body onload="setDefaults()">
   <!--[if IE]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
   <![endif]-->
@@ -94,6 +94,20 @@
       </div>
     </div>
     <hr />
+    <div>
+      <div class="formRow">
+        <label style="flex: 9em;" for="inputDate">Tag des Gestanks:</label>
+        <input style="flex: 7em;" id="inputDate" type="date" />
+      </div>
+      <div class="formRow">
+        <label style="flex: 9em;" for="inputStartTime">Start des Gestanks:</label>
+        <input style="flex: 7em;" id="inputStartTime" type="time" />
+      </div>
+      <div class="formRow">
+        <label style="flex: 9em;" for="inputEndTime">Ende des Gestanks:</label>
+        <input style="flex: 7em;" id="inputEndTime" type="time" />
+      </div>
+    </div>
     <div class="formRow">
       <input type="checkbox" style="flex: 1;" id="checkConsent" required> <label style="flex: 20;" for="checkConsent">
         Ich bin damit einverstanden,
@@ -271,6 +285,19 @@
     function resetStink() {
       document.getElementById("selectFlavor").options.selectedIndex = 0;
       document.getElementById("inputStinkIntensity").value = 3;
+    }
+
+    function setDefaults() {
+      var now = new Date();
+      var offset = now.getTimezoneOffset();
+      var hourAgo = new Date(now.valueOf() - offset * 60000 - 3600000);
+      var nowIsoString = new Date(now.valueOf() - offset * 60000).toISOString();
+      var todayString = nowIsoString.substring(0, 10);
+      var nowTimeString = nowIsoString.substring(11, 16);
+      var hourAgoTimeString = hourAgo.toISOString().substring(11, 16);
+      document.getElementById("inputDate").value = todayString;
+      document.getElementById("inputEndTime").value = nowTimeString;
+      document.getElementById("inputStartTime").value = hourAgoTimeString;
     }
   </script>
 </body>
