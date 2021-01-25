@@ -100,11 +100,11 @@
       <div class="formRow">
         <div style="flex: 13em;">
           <input type="radio" id="radioReportNow" name="reportTime" value="now" checked="checked"
-            onclick="togglePastInput(this)">
+            onclick="togglePastInput()">
           <label for="radioReportNow">Es stinkt gerade</label>
         </div>
         <div style="flex: 13em;">
-          <input type="radio" id="radioReportPast" name="reportTime" value="past" onclick="togglePastInput(this)">
+          <input type="radio" id="radioReportPast" name="reportTime" value="past" onclick="togglePastInput()">
           <label for="radioReportPast">Der Gestank ist vorbei</label>
         </div>
       </div>
@@ -323,12 +323,13 @@
       document.getElementById("inputDate").value = todayString;
       document.getElementById("inputEndTime").value = nowTimeString;
       document.getElementById("inputStartTime").value = hourAgoTimeString;
+      togglePastInput();
     }
 
-    function togglePastInput(radioButton) {
+    function togglePastInput() {
       var pastInputBox = document.getElementById("pastTimeInput");
       var inputChildren = pastInputBox.getElementsByTagName("input");
-      if (radioButton.value === "now") {
+      if (document.getElementById("radioReportNow").checked) {
         pastInputBox.setAttribute("hidden", "");
         for (let index = 0; index < inputChildren.length; index++) {
           inputChildren[index].removeAttribute("required");
