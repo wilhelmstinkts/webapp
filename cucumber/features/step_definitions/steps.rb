@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'watir'
-require_relative 'config.rb'
+require_relative 'config'
 
 config = Config.default
 browser = config.browser
