@@ -22,6 +22,7 @@
   <script type="text/javascript" src="environment.js"></script>
   <script type="text/javascript" src="js/exceptions/addressNotFoundException.js"></script>
   <script type="text/javascript" src="js/exceptions/positionNotSupportedException.js"></script>
+  <script type="text/javascript" src="js/exceptions/startBeforeEndException.js"></script>
   <script type="text/javascript" src="js/views/mapView.js"></script>
   <script type="text/javascript" src="js/lib/openLayer.js"></script>
 </head>
@@ -165,7 +166,7 @@
             coordinates = await LocationService.getCoordinatesForAddress(address);
           }
 
-          const reportToSend = {
+          let reportToSend = {
             location: {
               address: address,
               coordinates: coordinates,
@@ -180,6 +181,14 @@
               email: document.getElementById("inputEmail").value
             }
           };
+
+          if (document.getElementById('radioReportPast').checked) {
+            const startTime = new Date(document.getElementById('inputDate').value + " " + document.getElementById('inputStartTime').value);
+            const endTime = new Date(document.getElementById('inputDate').value + " " + document.getElementById('inputEndTime').value);
+            if (endTime <= startTime) { throw new StartBeforeEndException(); }
+            reportToSend = { ...reportToSend, startTime: startTime.toISOString(), endTime: endTime.toISOString() };
+          }
+
           if (!Environment.isTest() && await ReportService.postReport(reportToSend) === true) {
             statusMessage = "Danke für deine Meldung!";
             resetStink();
@@ -191,6 +200,9 @@
         catch (error) {
           if (error instanceof AddressNotFoundException) {
             statusMessage = "Wir konnten diese Adresse nicht in Wilhelmsruh finden. Bitte prüfe deine Eingabe oder nutze die Standortbestimmung.";
+          }
+          else if (error instanceof StartBeforeEndException) {
+            statusMessage = "Das Ende des Gestanks muss nach dem Beginn liegen.";
           }
           else {
             statusMessage = `Unerwarteter Fehler: ${error}`;
