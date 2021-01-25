@@ -186,7 +186,7 @@
             const startTime = new Date(document.getElementById('inputDate').value + " " + document.getElementById('inputStartTime').value);
             const endTime = new Date(document.getElementById('inputDate').value + " " + document.getElementById('inputEndTime').value);
             if (endTime <= startTime) { throw new StartBeforeEndException(); }
-            reportToSend = { ...reportToSend, startTime: startTime.toISOString(), endTime: endTime.toISOString() };
+            reportToSend = { ...reportToSend, timeFrame: { startTime: startTime.toISOString(), endTime: endTime.toISOString() } };
           }
 
           if (!Environment.isTest() && await ReportService.postReport(reportToSend) === true) {
