@@ -102,3 +102,8 @@ option {
 .mapAttribution ul {
   list-style-type: none;
 }
+
+.consentbox {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
