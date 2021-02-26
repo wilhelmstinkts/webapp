@@ -316,10 +316,14 @@
       var now = new Date();
       var offset = now.getTimezoneOffset();
       var hourAgo = new Date(now.valueOf() - offset * 60000 - 3600000);
+      var fiveDaysAgo = new Date(now.valueOf() - offset * 60000 - 3600000 * 24 * 5);
       var nowIsoString = new Date(now.valueOf() - offset * 60000).toISOString();
       var todayString = nowIsoString.substring(0, 10);
+      var fiveDaysAgoString = fiveDaysAgo.toISOString().substring(0, 10);
       var nowTimeString = nowIsoString.substring(11, 16);
       var hourAgoTimeString = hourAgo.toISOString().substring(11, 16);
+      document.getElementById("inputDate").setAttribute("max", todayString);
+      document.getElementById("inputDate").setAttribute("min", fiveDaysAgoString);
       document.getElementById("inputDate").value = todayString;
       document.getElementById("inputEndTime").value = nowTimeString;
       document.getElementById("inputStartTime").value = hourAgoTimeString;
