@@ -22,11 +22,12 @@
   <script type="text/javascript" src="environment.js"></script>
   <script type="text/javascript" src="js/exceptions/addressNotFoundException.js"></script>
   <script type="text/javascript" src="js/exceptions/positionNotSupportedException.js"></script>
+  <script type="text/javascript" src="js/exceptions/startBeforeEndException.js"></script>
   <script type="text/javascript" src="js/views/mapView.js"></script>
   <script type="text/javascript" src="js/lib/openLayer.js"></script>
 </head>
 
-<body>
+<body onload="setDefaults()">
   <!--[if IE]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
   <![endif]-->
@@ -94,7 +95,35 @@
       </div>
     </div>
     <hr />
-    <div class="formRow">
+    <h3>Zeit des Gestanks</h3>
+    <fieldset>
+      <div class="formRow">
+        <div style="flex: 13em;">
+          <input type="radio" id="radioReportNow" name="reportTime" value="now" checked="checked"
+            onclick="togglePastInput()">
+          <label for="radioReportNow">Es stinkt gerade</label>
+        </div>
+        <div style="flex: 13em;">
+          <input type="radio" id="radioReportPast" name="reportTime" value="past" onclick="togglePastInput()">
+          <label for="radioReportPast">Der Gestank ist vorbei</label>
+        </div>
+      </div>
+    </fieldset>
+    <div id="pastTimeInput" hidden>
+      <div class="formRow">
+        <label style="flex: 9em;" for="inputDate">Tag des Gestanks:</label>
+        <input style="flex: 7em;" id="inputDate" type="date" />
+      </div>
+      <div class="formRow">
+        <label style="flex: 9em;" for="inputStartTime">Start des Gestanks:</label>
+        <input style="flex: 7em;" id="inputStartTime" type="time" />
+      </div>
+      <div class="formRow">
+        <label style="flex: 9em;" for="inputEndTime">Ende des Gestanks:</label>
+        <input style="flex: 7em;" id="inputEndTime" type="time" />
+      </div>
+    </div>
+    <div class="formRow consentbox">
       <input type="checkbox" style="flex: 1;" id="checkConsent" required> <label style="flex: 20;" for="checkConsent">
         Ich bin damit einverstanden,
         dass meine eingegebenen Daten an die Senatsverwaltung für Umwelt, Verkehr und Klimaschutz gesendet werden
@@ -137,7 +166,7 @@
             coordinates = await LocationService.getCoordinatesForAddress(address);
           }
 
-          const reportToSend = {
+          let reportToSend = {
             location: {
               address: address,
               coordinates: coordinates,
@@ -152,6 +181,14 @@
               email: document.getElementById("inputEmail").value
             }
           };
+
+          if (document.getElementById('radioReportPast').checked) {
+            const startTime = new Date(document.getElementById('inputDate').value + " " + document.getElementById('inputStartTime').value);
+            const endTime = new Date(document.getElementById('inputDate').value + " " + document.getElementById('inputEndTime').value);
+            if (endTime <= startTime) { throw new StartBeforeEndException(); }
+            reportToSend = { ...reportToSend, timeFrame: { startTime: startTime.toISOString(), endTime: endTime.toISOString() } };
+          }
+
           if (!Environment.isTest() && await ReportService.postReport(reportToSend) === true) {
             statusMessage = "Danke für deine Meldung!";
             resetStink();
@@ -163,6 +200,9 @@
         catch (error) {
           if (error instanceof AddressNotFoundException) {
             statusMessage = "Wir konnten diese Adresse nicht in Wilhelmsruh finden. Bitte prüfe deine Eingabe oder nutze die Standortbestimmung.";
+          }
+          else if (error instanceof StartBeforeEndException) {
+            statusMessage = "Das Ende des Gestanks muss nach dem Beginn liegen.";
           }
           else {
             statusMessage = `Unerwarteter Fehler: ${error}`;
@@ -257,7 +297,6 @@
         inputDiverse.removeAttribute("required");
         inputDiverse.setAttribute("hidden", "");
       }
-
     }
 
     function showOverlay() {
@@ -271,6 +310,40 @@
     function resetStink() {
       document.getElementById("selectFlavor").options.selectedIndex = 0;
       document.getElementById("inputStinkIntensity").value = 3;
+    }
+
+    function setDefaults() {
+      var now = new Date();
+      var offset = now.getTimezoneOffset();
+      var hourAgo = new Date(now.valueOf() - offset * 60000 - 3600000);
+      var fiveDaysAgo = new Date(now.valueOf() - offset * 60000 - 3600000 * 24 * 5);
+      var nowIsoString = new Date(now.valueOf() - offset * 60000).toISOString();
+      var todayString = nowIsoString.substring(0, 10);
+      var fiveDaysAgoString = fiveDaysAgo.toISOString().substring(0, 10);
+      var nowTimeString = nowIsoString.substring(11, 16);
+      var hourAgoTimeString = hourAgo.toISOString().substring(11, 16);
+      document.getElementById("inputDate").setAttribute("max", todayString);
+      document.getElementById("inputDate").setAttribute("min", fiveDaysAgoString);
+      document.getElementById("inputDate").value = todayString;
+      document.getElementById("inputEndTime").value = nowTimeString;
+      document.getElementById("inputStartTime").value = hourAgoTimeString;
+      togglePastInput();
+    }
+
+    function togglePastInput() {
+      var pastInputBox = document.getElementById("pastTimeInput");
+      var inputChildren = pastInputBox.getElementsByTagName("input");
+      if (document.getElementById("radioReportNow").checked) {
+        pastInputBox.setAttribute("hidden", "");
+        for (let index = 0; index < inputChildren.length; index++) {
+          inputChildren[index].removeAttribute("required");
+        }
+      } else {
+        pastInputBox.removeAttribute("hidden");
+        for (let index = 0; index < inputChildren.length; index++) {
+          inputChildren[index].setAttribute("required", "");
+        }
+      }
     }
   </script>
 </body>
