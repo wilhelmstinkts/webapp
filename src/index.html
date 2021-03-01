@@ -19,7 +19,6 @@
   <meta name="theme-color" content="#fafafa">
   <script type="text/javascript" src="js/services/locationService.js"></script>
   <script type="text/javascript" src="js/services/reportService.js"></script>
-  <script type="text/javascript" src="environment.js"></script>
   <script type="text/javascript" src="js/exceptions/addressNotFoundException.js"></script>
   <script type="text/javascript" src="js/exceptions/positionNotSupportedException.js"></script>
   <script type="text/javascript" src="js/exceptions/startBeforeEndException.js"></script>
@@ -189,12 +188,9 @@
             reportToSend = { ...reportToSend, timeFrame: { startTime: startTime.toISOString(), endTime: endTime.toISOString() } };
           }
 
-          if (!Environment.isTest() && await ReportService.postReport(reportToSend) === true) {
+          if (await ReportService.postReport(reportToSend) === true) {
             statusMessage = "Danke für deine Meldung!";
             resetStink();
-          }
-          else {
-            statusMessage = "Server nicht erreichbar. Bitte versuch es später noch einmal.";
           }
         }
         catch (error) {
@@ -203,6 +199,9 @@
           }
           else if (error instanceof StartBeforeEndException) {
             statusMessage = "Das Ende des Gestanks muss nach dem Beginn liegen.";
+          }
+          else if (error instanceof TypeError && (error.message.includes("NetworkError") || error.message.includes("Failed to fetch"))) {
+            statusMessage = "Server nicht erreichbar. Bitte versuch es später noch einmal.";
           }
           else {
             statusMessage = `Unerwarteter Fehler: ${error}`;
