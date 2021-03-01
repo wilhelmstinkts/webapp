@@ -1,6 +1,6 @@
 class ReportService {
   static serviceUrl() {
-    return "https://frischluft.wilhelm-gibt-keine-ruh.de/api/v0/report"
+    return "api/v0/report"
   }
 
   static async postReport(report) {
