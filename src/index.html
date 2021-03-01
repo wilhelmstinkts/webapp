@@ -19,11 +19,13 @@
   <meta name="theme-color" content="#fafafa">
   <script type="text/javascript" src="js/services/locationService.js"></script>
   <script type="text/javascript" src="js/services/reportService.js"></script>
+  <script type="text/javascript" src="js/services/mailTemplater.js"></script>
   <script type="text/javascript" src="js/exceptions/addressNotFoundException.js"></script>
   <script type="text/javascript" src="js/exceptions/positionNotSupportedException.js"></script>
   <script type="text/javascript" src="js/exceptions/startBeforeEndException.js"></script>
   <script type="text/javascript" src="js/views/mapView.js"></script>
   <script type="text/javascript" src="js/lib/openLayer.js"></script>
+  <script type="text/javascript" src="js/lib/uaParser.js"></script>
 </head>
 
 <body onload="setDefaults()">
@@ -133,7 +135,7 @@
   </form>
   <div class="footer">
     <img src="img/logo_long.svg" title="Wilhelm gibt keine Ruh." alt="Logo - Wilhelm gibt keine Ruh" />
-    <p>Die Seite hat einen Fehler? Bitte <a href="mailto:support@frischluft.wilhelm-gibt-keine-ruh.de">hier</a>
+    <p>Die Seite hat einen Fehler? Bitte <a href="#" onclick="MailTemplater.sendMail()">hier</a>
       melden. Danke!</p>
   </div>
 
