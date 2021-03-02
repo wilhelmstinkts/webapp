@@ -45,7 +45,7 @@ Feature: Form
     When I open the main page
     And I fill in following:
       | Vorname | Nachname | E-Mailadresse     | Straße          | Hausnummer | selectFlavor |
-      | Hans    | Wurst    | hans.wurst@web.de | Garibaldestraße | 205 b      | Abfall       |
+      | Hans    | Wurst    | hans.wurst@web.de | Hertzstraße     | 3          | Abfall       |
     When I click "Senden"
     Then I should see "Bitte prüfe deine Angaben"
 
@@ -53,7 +53,7 @@ Feature: Form
     When I open the main page
     And I fill in following:
       | Vorname | Nachname | E-Mailadresse           | Straße          | Hausnummer | selectFlavor |
-      | Hans    | Wurst    | hanswurstÄtJimeyldotcom | Garibaldestraße | 205 b      | Abfall       |
+      | Hans    | Wurst    | hanswurstÄtJimeyldotcom | Hertzstraße     | 3          | Abfall       |
     And I agree to terms and conditions
     When I click "Senden"
     Then I should see "Bitte prüfe deine Angaben"
@@ -71,8 +71,8 @@ Feature: Form
   # Scenario: Missing address is Ok when gps location is used
   #   When I open the main page
   #   And I fill in following:
-  #     | Vorname | Nachname | E-Mailadresse     | selectFlavor      |
-  #     | Hans    | Wurst    | hans.wurst@web.de | Abfall           |
+  #     | Vorname | Nachname | E-Mailadresse     | selectFlavor |
+  #     | Hans    | Wurst    | hans.wurst@web.de | Abfall       |
   #   And I click "Meine Position verwenden"
   #   And I agree to terms and conditions
   #   When I click "Senden"
