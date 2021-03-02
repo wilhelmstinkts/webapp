@@ -12,9 +12,6 @@ jobs:
     steps:
     - name: Checkout Head
       uses: actions/checkout@v2
-    - name: Delete Test Settings
-      working-directory: ./src
-      run: rm ./environment.js
     - name: Upload ftp
       uses: sebastianpopp/ftp-action@releases/v2
       with:
