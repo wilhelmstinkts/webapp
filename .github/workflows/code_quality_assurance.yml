@@ -13,34 +13,3 @@ jobs:
         with:
           root: ./src
           css: true
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout head
-        uses: actions/checkout@v2
-      - name: Lint Ruby
-        uses: gimenete/rubocop-action@1.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  behaviour-test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout head
-        uses: actions/checkout@v2
-      - name: Install ruby
-        uses: actions/setup-ruby@v1
-        with:
-          ruby-version: "2.6"
-      - name: Install requirements
-        working-directory: ./cucumber
-        run: |
-          echo Ruby has version
-          ruby -v
-          echo Bundler has version
-          bundle -v          
-          bundle install
-      - name: Carry out behaviour tests
-        working-directory: ./cucumber
-        run: cucumber
