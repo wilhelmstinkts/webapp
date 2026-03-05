@@ -13,6 +13,16 @@ class ReportService {
     }
   }
 
+  static async getReports() {
+    const response = await this.executeGetRequest(this.serviceUrl());
+    if (response.ok) {
+      return await response.json();
+    }
+    else {
+      throw response.statusText;
+    }
+  }
+
   static executePostRequest(url = "", bodyObject = {}) {
     return fetch(url, {
       method: 'POST',
@@ -21,6 +31,13 @@ class ReportService {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(bodyObject)
+    });
+  }
+
+  static executeGetRequest(url = "") {
+    return fetch(url, {
+      method: 'GET',
+      cache: 'default',
     });
   }
 }

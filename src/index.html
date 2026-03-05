@@ -67,6 +67,12 @@
     <p id="positionDisplay" hidden></p>
     <div id="map"></div>
     <div class="formRow" id="mapAttribution"></div>
+    <div class="formRow">
+      <input type="checkbox" id="checkHeatmap" style="flex:1;" onclick="toggleHeatmap()" />
+      <label style="flex: 20;" for="checkHeatmap">
+        Heatmap früherer Meldungen anzeigen.
+      </label>
+    </div>
     <h3>Beschreibung des Gestanks</h3>
     <div class="formRow">
       <div style="flex: 1; display: flex; flex-direction: column;">
@@ -160,7 +166,7 @@
 
           coordinates = {
             latitude: document.getElementById("inputLatitude").value,
-            latitude: document.getElementById("inputLongitude").value
+            longitude: document.getElementById("inputLongitude").value
           }
 
           if (!coordinates.latitude || !coordinates.longitude) {
@@ -193,6 +199,10 @@
           if (await ReportService.postReport(reportToSend) === true) {
             statusMessage = "Danke für deine Meldung!";
             resetStink();
+            if (document.getElementById("checkHeatmap").checked) {
+              const reports = await ReportService.getReports();
+              mapView.showHeatMap(reports);
+            }
           }
         }
         catch (error) {
@@ -311,6 +321,20 @@
     function resetStink() {
       document.getElementById("selectFlavor").options.selectedIndex = 0;
       document.getElementById("inputStinkIntensity").value = 3;
+    }
+
+    async function toggleHeatmap() {
+      if (document.getElementById("checkHeatmap").checked) {
+        try {
+          const reports = await ReportService.getReports();
+          mapView.showHeatMap(reports);
+        } catch (error) {
+          console.error("Could not fetch reports for heatmap", error);
+          document.getElementById("checkHeatmap").checked = false;
+        }
+      } else {
+        mapView.hideHeatMap();
+      }
     }
 
     function setDefaults() {
