@@ -55,6 +55,34 @@ class MapView {
         this.addMarker(coordinates);
     }
 
+    showHeatMap(reports) {
+        this.hideHeatMap();
+
+        const features = reports.map(report => {
+            return new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.fromLonLat([report.location.coordinates.longitude, report.location.coordinates.latitude])),
+                weight: report.stink.intensity / 6
+            });
+        });
+
+        this.heatmapLayer = new ol.layer.Heatmap({
+            source: new ol.source.Vector({
+                features: features
+            }),
+            blur: 15,
+            radius: 5
+        });
+
+        this.map.addLayer(this.heatmapLayer);
+    }
+
+    hideHeatMap() {
+        if (this.heatmapLayer) {
+            this.map.removeLayer(this.heatmapLayer);
+            this.heatmapLayer = null;
+        }
+    }
+
     jumpTo(coordinates, zoom) {
         this.markers.clear();
         this.view.setZoom(zoom);
