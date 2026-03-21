@@ -165,8 +165,8 @@
           };
 
           coordinates = {
-            latitude: document.getElementById("inputLatitude").value,
-            longitude: document.getElementById("inputLongitude").value
+            latitude: parseFloat(document.getElementById("inputLatitude").value),
+            longitude: parseFloat(document.getElementById("inputLongitude").value)
           }
 
           if (!coordinates.latitude || !coordinates.longitude) {
