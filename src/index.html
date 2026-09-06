@@ -19,6 +19,7 @@
   <meta name="theme-color" content="#fafafa">
   <script type="text/javascript" src="js/services/locationService.js"></script>
   <script type="text/javascript" src="js/services/reportService.js"></script>
+  <script type="text/javascript" src="js/services/weatherService.js"></script>
   <script type="text/javascript" src="js/services/mailTemplater.js"></script>
   <script type="text/javascript" src="js/exceptions/addressNotFoundException.js"></script>
   <script type="text/javascript" src="js/exceptions/positionNotSupportedException.js"></script>
@@ -67,6 +68,7 @@
     <p id="positionDisplay" hidden></p>
     <div id="map"></div>
     <div class="formRow" id="mapAttribution"></div>
+    <div id="weatherDisplay" hidden></div>
     <div class="formRow">
       <input type="checkbox" id="checkHeatmap" style="flex:1;" onclick="toggleHeatmap()" />
       <label style="flex: 20;" for="checkHeatmap">
@@ -119,15 +121,15 @@
     <div id="pastTimeInput" hidden>
       <div class="formRow">
         <label style="flex: 9em;" for="inputDate">Tag des Gestanks:</label>
-        <input style="flex: 7em;" id="inputDate" type="date" />
+        <input style="flex: 7em;" id="inputDate" type="date" onchange="updateWeather()" />
       </div>
       <div class="formRow">
         <label style="flex: 9em;" for="inputStartTime">Start des Gestanks:</label>
-        <input style="flex: 7em;" id="inputStartTime" type="time" />
+        <input style="flex: 7em;" id="inputStartTime" type="time" onchange="updateWeather()" />
       </div>
       <div class="formRow">
         <label style="flex: 9em;" for="inputEndTime">Ende des Gestanks:</label>
-        <input style="flex: 7em;" id="inputEndTime" type="time" />
+        <input style="flex: 7em;" id="inputEndTime" type="time" onchange="updateWeather()" />
       </div>
     </div>
     <div class="formRow consentbox">
@@ -147,6 +149,54 @@
 
   <script>
     var mapView = new MapView("map");
+    var lastWeatherCoordinates = null;
+
+    async function updateWeather() {
+      var el = document.getElementById("weatherDisplay");
+      var coords = lastWeatherCoordinates;
+      if (!coords || !coords.latitude || !coords.longitude) {
+        el.setAttribute("hidden", "");
+        return;
+      }
+      try {
+        var weather;
+        var label;
+        var isPast = document.getElementById("radioReportPast").checked
+          && document.getElementById("inputDate").value;
+        if (isPast) {
+          var date = document.getElementById("inputDate").value;
+          var start = document.getElementById("inputStartTime").value;
+          var end = document.getElementById("inputEndTime").value;
+          var midTime = start || end || "12:00";
+          if (start && end) {
+            var s = new Date(date + "T" + start).getTime();
+            var e = new Date(date + "T" + end).getTime();
+            midTime = new Date((s + e) / 2).toTimeString().slice(0, 5);
+          }
+          weather = await WeatherService.getHistorical(coords, date, midTime);
+          label = "Wetter zum gemeldeten Zeitpunkt";
+        } else {
+          weather = await WeatherService.getCurrent(coords);
+          label = "Aktuelles Wetter am gemeldeten Ort";
+        }
+        var parts = WeatherService.describe(weather.weatherCode);
+        var text = parts[0] + " " + Math.round(weather.temperatureC) + "&nbsp;°C · " + parts[1];
+        if (weather.windSpeed != null && weather.windDirection != null) {
+          var wind = weather.windSpeed.toFixed(1).replace(".", ",");
+          var deg = Math.round(weather.windDirection);
+          text += " · 💨 " + wind + "&nbsp;m/s aus " + WeatherService.compass(deg)
+            + " <span class=\"windArrow\" style=\"transform:rotate(" + (deg + 180) + "deg)\""
+            + " title=\"Wind weht nach " + WeatherService.compass(deg + 180) + "\">↑</span>";
+        }
+        el.innerHTML = "<span title=\"" + label + "\">" + text + "</span>"
+          + "<span class=\"weatherSource\">Wetterdaten: "
+          + "<a href=\"https://open-meteo.com/\" target=\"_blank\" rel=\"noopener\">Open-Meteo.com</a>"
+          + " (CC&nbsp;BY&nbsp;4.0)</span>";
+        el.removeAttribute("hidden");
+      } catch (error) {
+        document.getElementById("weatherDisplay").setAttribute("hidden", "");
+      }
+    }
 
     async function sendForm() {
       var form = document.getElementById("form");
@@ -252,6 +302,8 @@
         mapView.displayPosition(coordinates);
         document.getElementById("inputLatitude").value = coordinates.latitude;
         document.getElementById("inputLongitude").value = coordinates.longitude;
+        lastWeatherCoordinates = coordinates;
+        updateWeather();
         try {
           const address = await LocationService.getAddressForCoordinates(coordinates);
           document.getElementById("inputStreet").value = address.street;
@@ -285,10 +337,14 @@
         coordinates = await LocationService.getCoordinatesForAddress(address);
         mapView.displayPosition(coordinates);
         positionDisplay.setAttribute("hidden", true);
+        lastWeatherCoordinates = coordinates;
+        updateWeather();
       }
     }
 
     function resetCoordinates() {
+      lastWeatherCoordinates = null;
+      document.getElementById("weatherDisplay").setAttribute("hidden", "");
       document.getElementById("inputLatitude").value = undefined;
       document.getElementById("inputLongitude").value = undefined;
       document.getElementById("inputStreet").setAttribute("required", true);
@@ -369,6 +425,7 @@
           inputChildren[index].setAttribute("required", "");
         }
       }
+      updateWeather();
     }
   </script>
 </body>

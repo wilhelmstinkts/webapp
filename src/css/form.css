@@ -84,6 +84,24 @@ option {
   font-size: smaller;
 }
 
+#weatherDisplay {
+  text-align: center;
+  font-size: smaller;
+  opacity: 0.85;
+  margin: 4px 0 2px;
+}
+
+#weatherDisplay .windArrow {
+  display: inline-block;
+  font-weight: bold;
+}
+
+#weatherDisplay .weatherSource {
+  display: block;
+  font-size: 0.7em;
+  opacity: 0.7;
+}
+
 .mapAttribution {
   padding: 5px;
   display: flex;
