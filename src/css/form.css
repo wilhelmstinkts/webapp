@@ -89,6 +89,9 @@ option {
   font-size: smaller;
   opacity: 0.85;
   margin: 4px 0 2px;
+  /* Hold the space for both lines up front, so filling them in does not
+     push the rest of the form down. */
+  min-height: 2.4em;
 }
 
 #weatherDisplay .windArrow {
