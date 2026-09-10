@@ -89,9 +89,19 @@ option {
   font-size: smaller;
   opacity: 0.85;
   margin: 4px 0 2px;
-  /* Hold the space for both lines up front, so filling them in does not
-     push the rest of the form down. */
+  /* An empty box is zero high, so there would be nothing for the hidden
+     state below to reserve. Hold both lines up front instead. */
   min-height: 2.4em;
+}
+
+/* normalize.css maps the hidden attribute to display: none, which generates
+   no box at all - the space reserved above would be gone and the form would
+   jump again once the weather arrives. Hide the box the way the CSS
+   visibility property does instead, so it keeps its place in the flow. It
+   stays out of the accessibility tree either way. */
+#weatherDisplay[hidden] {
+  display: block;
+  visibility: hidden;
 }
 
 #weatherDisplay .windArrow {

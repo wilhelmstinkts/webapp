@@ -68,7 +68,7 @@
     <p id="positionDisplay" hidden></p>
     <div id="map"></div>
     <div class="formRow" id="mapAttribution"></div>
-    <div id="weatherDisplay"></div>
+    <div id="weatherDisplay" hidden></div>
     <div class="formRow">
       <input type="checkbox" id="checkHeatmap" style="flex:1;" onclick="toggleHeatmap()" />
       <label style="flex: 20;" for="checkHeatmap">
@@ -164,7 +164,7 @@
       var el = document.getElementById("weatherDisplay");
       var coords = lastWeatherCoordinates;
       if (!coords || !coords.latitude || !coords.longitude) {
-        el.innerHTML = "";
+        el.setAttribute("hidden", "");
         return;
       }
       try {
@@ -201,8 +201,9 @@
           + "<span class=\"weatherSource\">Wetterdaten: "
           + "<a href=\"https://open-meteo.com/\" target=\"_blank\" rel=\"noopener\">Open-Meteo.com</a>"
           + " (CC&nbsp;BY&nbsp;4.0)</span>";
+        el.removeAttribute("hidden");
       } catch (error) {
-        document.getElementById("weatherDisplay").innerHTML = "";
+        document.getElementById("weatherDisplay").setAttribute("hidden", "");
       }
     }
 
@@ -353,7 +354,7 @@
     function resetCoordinates() {
       clearTimeout(weatherUpdateTimer);
       lastWeatherCoordinates = null;
-      document.getElementById("weatherDisplay").innerHTML = "";
+      document.getElementById("weatherDisplay").setAttribute("hidden", "");
       document.getElementById("inputLatitude").value = undefined;
       document.getElementById("inputLongitude").value = undefined;
       document.getElementById("inputStreet").setAttribute("required", true);
