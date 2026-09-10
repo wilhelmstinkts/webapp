@@ -104,6 +104,18 @@ option {
   visibility: hidden;
 }
 
+/* On narrow screens the longest reading wraps onto a third line and the box
+   grows past the two reserved above, which would shift the form again.
+   Reserve the third line there instead.
+   Measured: with Source Sans Pro the wrap starts at 358px viewport, with the
+   fallback font used while it still loads already at 363px. The breakpoint
+   clears both and sits just under the common 375px devices. */
+@media (max-width: 374px) {
+  #weatherDisplay {
+    min-height: 3.8em;
+  }
+}
+
 #weatherDisplay .windArrow {
   display: inline-block;
   font-weight: bold;
