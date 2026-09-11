@@ -44,9 +44,26 @@ class WeatherService {
     return points[Math.round(degrees / 45) % 8];
   }
 
+  // A reading as the report API expects it: temperature in Kelvin, wind in
+  // m/s and degrees. Null if a required value is missing, so the server
+  // looks the weather up itself instead.
+  static toReportWeather(weather) {
+    if (weather.temperatureC == null || weather.windSpeed == null || weather.windDirection == null) {
+      return null;
+    }
+    const wind = { direction: weather.windDirection, speed: weather.windSpeed };
+    if (weather.windGusts != null) {
+      wind.gustSpeed = weather.windGusts;
+    }
+    return {
+      temperature: Math.round((weather.temperatureC + 273.15) * 100) / 100,
+      wind: wind
+    };
+  }
+
   static async getCurrent(coordinates) {
     const url = `${this.serviceUrl()}?latitude=${coordinates.latitude}&longitude=${coordinates.longitude}`
-      + "&current=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m"
+      + "&current=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m"
       + "&wind_speed_unit=ms&timezone=auto";
     const response = await this.executeGetRequest(url);
     const body = await response.json();
@@ -54,14 +71,15 @@ class WeatherService {
       temperatureC: body.current.temperature_2m,
       weatherCode: body.current.weather_code,
       windSpeed: body.current.wind_speed_10m,
-      windDirection: body.current.wind_direction_10m
+      windDirection: body.current.wind_direction_10m,
+      windGusts: body.current.wind_gusts_10m
     };
   }
 
   // date: "YYYY-MM-DD", time: "HH:MM" (local). Returns the hourly sample nearest that time.
   static async getHistorical(coordinates, date, time) {
     const url = `${this.serviceUrl()}?latitude=${coordinates.latitude}&longitude=${coordinates.longitude}`
-      + `&hourly=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m`
+      + `&hourly=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m`
       + `&wind_speed_unit=ms&start_date=${date}&end_date=${date}&timezone=auto`;
     const response = await this.executeGetRequest(url);
     const body = await response.json();
@@ -79,7 +97,8 @@ class WeatherService {
       temperatureC: body.hourly.temperature_2m[best],
       weatherCode: body.hourly.weather_code[best],
       windSpeed: body.hourly.wind_speed_10m[best],
-      windDirection: body.hourly.wind_direction_10m[best]
+      windDirection: body.hourly.wind_direction_10m[best],
+      windGusts: body.hourly.wind_gusts_10m[best]
     };
   }
 

@@ -151,6 +151,35 @@
     var mapView = new MapView("map");
     var lastWeatherCoordinates = null;
     var weatherUpdateTimer = null;
+    // The reading on display and what it was looked up for, so the report can
+    // carry it instead of the server fetching it a second time.
+    var shownWeather = null;
+
+    // Everything a reading depends on: the place, and either "now" or the day
+    // and times of a past report.
+    function weatherKey(coords) {
+      var when = document.getElementById("radioReportPast").checked
+        ? [document.getElementById("inputDate").value,
+          document.getElementById("inputStartTime").value,
+          document.getElementById("inputEndTime").value].join(" ")
+        : "now";
+      return Number(coords.latitude).toFixed(4) + "," + Number(coords.longitude).toFixed(4) + " " + when;
+    }
+
+    // Send the reading along only while it still belongs to the place and
+    // time being reported. Otherwise - lookup still running, inputs changed
+    // since, or a "now" reading gone stale - leave it out and the server
+    // looks the weather up itself.
+    function weatherForReport(coordinates) {
+      if (!shownWeather || shownWeather.key !== weatherKey(coordinates)) {
+        return null;
+      }
+      var isNow = !document.getElementById("radioReportPast").checked;
+      if (isNow && Date.now() - shownWeather.fetchedAt > 15 * 60 * 1000) {
+        return null;
+      }
+      return WeatherService.toReportWeather(shownWeather.reading);
+    }
 
     // Filling in a past report touches several inputs in quick succession.
     // Collect those into one lookup instead of one per keystroke, so the
@@ -164,9 +193,13 @@
       var el = document.getElementById("weatherDisplay");
       var coords = lastWeatherCoordinates;
       if (!coords || !coords.latitude || !coords.longitude) {
+        shownWeather = null;
         el.setAttribute("hidden", "");
         return;
       }
+      // Taken before the lookup, so a reading that arrives after the inputs
+      // changed is recorded for what it was actually fetched for.
+      var key = weatherKey(coords);
       try {
         var weather;
         var label;
@@ -202,7 +235,9 @@
           + "<a href=\"https://open-meteo.com/\" target=\"_blank\" rel=\"noopener\">Open-Meteo.com</a>"
           + " (CC&nbsp;BY&nbsp;4.0)</span>";
         el.removeAttribute("hidden");
+        shownWeather = { key: key, fetchedAt: Date.now(), reading: weather };
       } catch (error) {
+        shownWeather = null;
         document.getElementById("weatherDisplay").setAttribute("hidden", "");
       }
     }
@@ -253,6 +288,11 @@
             const endTime = new Date(document.getElementById('inputDate').value + " " + document.getElementById('inputEndTime').value);
             if (endTime <= startTime) { throw new StartBeforeEndException(); }
             reportToSend = { ...reportToSend, timeFrame: { startTime: startTime.toISOString(), endTime: endTime.toISOString() } };
+          }
+
+          const weather = weatherForReport(coordinates);
+          if (weather) {
+            reportToSend.weather = weather;
           }
 
           if (await ReportService.postReport(reportToSend) === true) {
@@ -354,6 +394,7 @@
     function resetCoordinates() {
       clearTimeout(weatherUpdateTimer);
       lastWeatherCoordinates = null;
+      shownWeather = null;
       document.getElementById("weatherDisplay").setAttribute("hidden", "");
       document.getElementById("inputLatitude").value = undefined;
       document.getElementById("inputLongitude").value = undefined;
