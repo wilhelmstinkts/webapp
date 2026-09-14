@@ -44,9 +44,6 @@ class WeatherService {
     return points[Math.round(degrees / 45) % 8];
   }
 
-  // A reading as the report API expects it: temperature in Kelvin, wind in
-  // m/s and degrees. Null if a required value is missing, so the server
-  // looks the weather up itself instead.
   static toReportWeather(weather) {
     if (weather.temperatureC == null || weather.windSpeed == null || weather.windDirection == null) {
       return null;

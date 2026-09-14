@@ -151,12 +151,9 @@
     var mapView = new MapView("map");
     var lastWeatherCoordinates = null;
     var weatherUpdateTimer = null;
-    // The reading on display and what it was looked up for, so the report can
-    // carry it instead of the server fetching it a second time.
     var shownWeather = null;
+    var CURRENT_WEATHER_MAX_AGE_MS = 15 * 60 * 1000;
 
-    // Everything a reading depends on: the place, and either "now" or the day
-    // and times of a past report.
     function weatherKey(coords) {
       var when = document.getElementById("radioReportPast").checked
         ? [document.getElementById("inputDate").value,
@@ -166,16 +163,12 @@
       return Number(coords.latitude).toFixed(4) + "," + Number(coords.longitude).toFixed(4) + " " + when;
     }
 
-    // Send the reading along only while it still belongs to the place and
-    // time being reported. Otherwise - lookup still running, inputs changed
-    // since, or a "now" reading gone stale - leave it out and the server
-    // looks the weather up itself.
     function weatherForReport(coordinates) {
       if (!shownWeather || shownWeather.key !== weatherKey(coordinates)) {
         return null;
       }
       var isNow = !document.getElementById("radioReportPast").checked;
-      if (isNow && Date.now() - shownWeather.fetchedAt > 15 * 60 * 1000) {
+      if (isNow && Date.now() - shownWeather.fetchedAt > CURRENT_WEATHER_MAX_AGE_MS) {
         return null;
       }
       return WeatherService.toReportWeather(shownWeather.reading);
@@ -197,8 +190,7 @@
         el.setAttribute("hidden", "");
         return;
       }
-      // Taken before the lookup, so a reading that arrives after the inputs
-      // changed is recorded for what it was actually fetched for.
+      // Before the await: inputs may change while the lookup runs.
       var key = weatherKey(coords);
       try {
         var weather;
