@@ -11,6 +11,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   temperature, conditions, wind speed and direction. Current weather for
   ongoing reports, historical weather for past ones. Data from Open-Meteo
   (CC BY 4.0), attributed in the form.
+- Reports carry the weather shown in the form, including gusts, so the
+  backend does not look it up a second time. Left out whenever it no longer
+  matches the place and time being reported; the backend then fetches it
+  itself as before.
+
+## [1.4.1] - 2026-03-21
+
+### Fixed
+
+- Coordinates from the device location are sent as numbers instead of strings
+
+## [1.4.0] - 2026-03-05
+
+### Added
+
+- Heat map of past reports on the map, switched on with a checkbox
 
 ## [1.3.1] - 2021-03-02
 
